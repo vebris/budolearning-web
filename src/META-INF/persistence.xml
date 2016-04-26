@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence version="2.0"
+             xmlns="http://java.sun.com/xml/ns/persistence"
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xsi:schemaLocation="http://java.sun.com/xml/ns/persistence
+                       http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd">
+	<persistence-unit name="budolearning"  transaction-type="JTA">
+		<jta-data-source>java:jboss/es.bris.budolearning.db</jta-data-source>
+		<mapping-file>META-INF/orm.xml</mapping-file>
+		<class>es.bris.budolearning.model.Android</class>
+		<class>es.bris.budolearning.model.Articulo</class>
+		<class>es.bris.budolearning.model.Club</class>
+		<class>es.bris.budolearning.model.Curso</class>
+		<class>es.bris.budolearning.model.Disciplina</class>
+		<class>es.bris.budolearning.model.DisciplinaGrado</class>
+		<class>es.bris.budolearning.model.Fichero</class>
+		<class>es.bris.budolearning.model.Grado</class>
+		<class>es.bris.budolearning.model.LogDownloadFile</class>
+		<class>es.bris.budolearning.model.Puntos</class>
+		<class>es.bris.budolearning.model.Recurso</class>
+		<class>es.bris.budolearning.model.TipoRecurso</class>
+		<class>es.bris.budolearning.model.Usuario</class>
+		<class>es.bris.budolearning.model.VideoEspecial</class>
+		<properties>
+			<property name="hibernate.hbm2ddl.auto" value="update" />
+			<property name="hibernate.show_sql" value="false" />
+		</properties>
+	</persistence-unit>
+</persistence>

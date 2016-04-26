@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://java.sun.com/xml/ns/javaee" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd" version="3.0">
+  <display-name>budolearning-web</display-name>
+  
+  <!-- 
+  <security-constraint>
+    <web-resource-collection>
+      <web-resource-name>recursosAdministrador</web-resource-name>
+      <url-pattern>/mail</url-pattern>
+      <url-pattern>/download</url-pattern>
+      <url-pattern>/ArticuloServlet</url-pattern>
+      <url-pattern>/ClubServlet</url-pattern>
+      <url-pattern>/CursoServlet</url-pattern>
+      <url-pattern>/ConsumoServlet</url-pattern>
+      <url-pattern>/DisciplinaServlet</url-pattern>
+      <url-pattern>/FicheroDownloadServlet</url-pattern>
+      <url-pattern>/FicheroUploadServlet</url-pattern>
+      <url-pattern>/GradoServlet</url-pattern>
+      <url-pattern>/RecursoServlet</url-pattern>
+      <url-pattern>/TipoRecursoServlet</url-pattern>
+      <url-pattern>/UsuarioServlet</url-pattern>
+      <url-pattern>/DatosUsuarioServlet</url-pattern>
+      <url-pattern>/VistaUsuarioServlet</url-pattern>
+      <http-method>GET</http-method>
+      <http-method>POST</http-method>
+    </web-resource-collection>
+    <auth-constraint>
+      <role-name>ADMINISTRADOR</role-name>
+    </auth-constraint>
+    <user-data-constraint>
+      <transport-guarantee>NONE</transport-guarantee>
+    </user-data-constraint>
+  </security-constraint>
+  <security-constraint>
+    <web-resource-collection>
+      <web-resource-name>recursosProfesor</web-resource-name>
+      <url-pattern>/download</url-pattern>
+      <url-pattern>/ClubServlet</url-pattern>
+      <url-pattern>/CursoServlet</url-pattern>
+      <url-pattern>/DisciplinaServlet</url-pattern>
+      <url-pattern>/FicheroDownloadServlet</url-pattern>
+      <url-pattern>/FicheroUploadServlet</url-pattern>
+      <url-pattern>/GradoServlet</url-pattern>
+      <url-pattern>/RecursoServlet</url-pattern>
+      <url-pattern>/TipoRecursoServlet</url-pattern>
+      <url-pattern>/UsuarioServlet</url-pattern>
+      <url-pattern>/DatosUsuarioServlet</url-pattern>
+      <url-pattern>/VistaUsuarioServlet</url-pattern>
+      <http-method>GET</http-method>
+      <http-method>POST</http-method>
+    </web-resource-collection>
+    <auth-constraint>
+      <role-name>PROFESOR</role-name>
+    </auth-constraint>
+    <user-data-constraint>
+      <transport-guarantee>NONE</transport-guarantee>
+    </user-data-constraint>
+  </security-constraint>
+  <security-constraint>
+    <web-resource-collection>
+      <web-resource-name>recursosUsuario</web-resource-name>
+      <url-pattern>/download</url-pattern>
+      <url-pattern>/ClubServlet</url-pattern>
+      <url-pattern>/CursoServlet</url-pattern>
+      <url-pattern>/FicheroDownloadServlet</url-pattern>
+      <url-pattern>/RecursoServlet</url-pattern>
+      <url-pattern>/TipoRecursoServlet</url-pattern>
+      <url-pattern>/UsuarioServlet</url-pattern>
+      <url-pattern>/DatosUsuarioServlet</url-pattern>
+      <url-pattern>/VistaUsuarioServlet</url-pattern>
+      <http-method>GET</http-method>
+      <http-method>POST</http-method>
+    </web-resource-collection>
+    <auth-constraint>
+      <role-name>USER</role-name>
+    </auth-constraint>
+    <user-data-constraint>
+      <transport-guarantee>NONE</transport-guarantee>
+    </user-data-constraint>
+  </security-constraint>
+  <login-config>
+    <auth-method>FORM</auth-method>
+    <form-login-config>
+      <form-login-page>/login.jsp</form-login-page>
+      <form-error-page>/errorLogin.jsp</form-error-page>
+    </form-login-config>
+  </login-config>
+  <security-role>
+    <role-name>USER</role-name>
+  </security-role>
+  <security-role>
+    <role-name>PROFESOR</role-name>
+  </security-role>
+  <security-role>
+    <role-name>ADMINISTRADOR</role-name>
+  </security-role>
+   -->
+  
+  <welcome-file-list>
+    <welcome-file>index.jsp</welcome-file>
+  </welcome-file-list>
+  
+  
+  
+  <listener> 
+    <listener-class>org.jboss.resteasy.plugins.server.servlet.ResteasyBootstrap</listener-class>
+  </listener>
+  <context-param>
+    <param-name>resteasy.servlet.mapping.prefix</param-name>
+    <param-value>/rest</param-value>
+  </context-param>
+  <servlet>
+    <servlet-name>budolearning-rest</servlet-name>
+    <servlet-class>es.bris.budolearning.app.BudolearningApplication</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>budolearning-rest</servlet-name>
+    <url-pattern>/rest/*</url-pattern>
+  </servlet-mapping>
+  
+ 
+  
+</web-app>
