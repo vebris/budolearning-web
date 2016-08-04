@@ -1,27 +1,40 @@
 function verFicheros() {
-	if(!borrarContenido()) {logout(); return;}
+	if(!borrarContenido(true)) {logout(); return;}
+	
+	$("#contenido").toggleClass("wrapper row3");
+	/*
 	$("#contenido").append(
-		"<ol id='migas' class='breadcrumb'>"+
-		"	<li><span class='badge badge-warning' id='headerPuntos' style='font-size:1.25em;'>0</span></li>" +
-		"	<li id='m_disciplina'></li>" +
-		"	<li id='m_grado'></li>"+
-		"   <li id='m_recurso'></li>"+
-		"   <li id='m_fichero' class='active'></li>"+
-		"</ol>"+		
-		"<div class='banner-grids'>"+
-		"	<div id='ficheros'>"+		
-		"	</div> "+
-		"</div> " +
+		"<nav id='' class='clear' style='display: initial;margin:0;'>" + 
+		"	<ul class='clear' style='display:inline-flex'>"+
+		"		<li style='margin:0.25em;' ><span class='badge badge-warning' id='headerPuntos' style='font-size:1.25em;width:3.5em'>0</span></li>"+
+		"		<li style='margin:0.25em;' id='m_disciplina'></li>"+
+		"		<li style='margin:0.25em;' id='m_grado'></li>"+
+		"   	<li style='margin:0.25em;' id='m_recurso'></li>"+
+		"   	<li id='m_fichero' class='active'></li>"+
+		"	</ul>"+
+		"</nav>"+
+		"<section id='contenido_div' class='hoc container clear'>"+
+		"	<ul id='ficheros_list' class='nospace group'>" +
+		"	</ul>" +
+		"</section> "+
 		"<div id='dialog'></div>"
 	);
+	*/
 	
 	var usuario = JSON.parse(sessionStorage.getItem("usuario"));
 	
-	$("#m_disciplina").append("<a href='javascript:verDisciplinas()'>DISCIPLINAS </a>");
-	$("#m_grado").append("<a href='javascript:verGrados()'>"+ "" + sessionStorage.getItem("disciplinaNombre") + " </a>");
-	$("#m_recurso").append("<a href='javascript:verRecursos()'>"+"" + sessionStorage.getItem("gradoNombre") + " </a>");
-	$("#m_fichero").append(sessionStorage.getItem("recursoNombre"));
+	$("#list").children().remove();
+	$("#contenido nav ul li").removeClass("active");
+	$("#m_disciplina").children().remove();
+	$("#m_grado").children().remove();
+	$("#m_recurso").children().remove();
+	$("#m_fichero").children().remove();
 	
+	$("#m_disciplina").append("<a href='javascript:verDisciplinas()' style='padding-top: 0em'><span class='badge badge-primary' id='headerPuntos' style='font-size:1.25em;'>DISCIPLINAS</span></a>");
+	$("#m_grado").append("<a href='javascript:verGrados()' style='padding-top: 0em'><span class='badge badge-primary' id='headerPuntos' style='font-size:1.25em;'>" + sessionStorage.getItem("disciplinaNombre") + "</span></a>");
+	$("#m_recurso").append("<a href='javascript:verRecursos()' style='padding-top: 0em'><span class='badge badge-primary' id='headerPuntos' style='font-size:1.25em;'>" + sessionStorage.getItem("gradoNombre") + "</span></a>");
+	$("#m_fichero").append("<span class='badge badge-neutral' id='headerPuntos' style='font-size:1.25em;'>" + sessionStorage.getItem("recursoNombre") + "</span>");
+	$("#m_fichero").addClass("active");
 	
 	var disciplina = {id: sessionStorage.getItem("disciplinaId")}
 	var grado = {id: sessionStorage.getItem("gradoId")}
@@ -44,32 +57,25 @@ function verFicheros() {
         	
         	for(i=0;i<ficheros.length;i++) {
         		if(ficheros[i].extension == 'mp4'){
-        			$("#ficheros").append(
-    					"<div id='fichero_"+ficheros[i].id+"'class='col-md-12 banner-grid'> " + 
-        				"	<div class='banner-left-grid blue'> " + 
-        				"		<div class='banner-grids'> "+
-       					"			<div> "+
-       					"				<div class='col-md-2 banner-grid'>" +
-       					"					<span class='badge lala' style='font-size:1.5em;'>"+formattedSize(ficheros[i].tamano)+ "</span><br/><br/>" +
-       					"					<span class='badge' style='font-size:1.5em;'>"+formattedTime(ficheros[i].segundos)+ "</span>" +
-        				"				</div>" +
-           				"				<div class='col-md-8 banner-grid' style='text-align:left;color:#FFF'> " +
-        				"					<p id='nombreFichero"+ficheros[i].id+"'>"+
-        										ficheros[i].descripcion +
-        				"					</p> " +
-        				"				</div>" +
-        				"				<div class='col-md-2 banner-grid' style='text-align:left;color:#FFF'> " +
-        				"					<p>"+ formattedDateCorto(new Date(ficheros[i].fecha)) + "</p>" +
-        				"					<p><span class='badge badge-warning' id='coste_"+ficheros[i].id+"' style='font-size:1.25em;display:none'>"+ficheros[i].coste+"</span></p>"+
-        				"				</div>" +
-        				"			</div>" +
-        				"		</div> " + 
-        				"		<div class='clearfix'> </div> " + 
-        				"	</div> " + 
-        				"</div> "
-	    			);
-	        		
-        			if(ficheros[i].coste <= 0) {
+        			
+        			if(i%2==0) primero='first'; else primero='';
+            		$("#list").append(
+       					"<li class='one_half "+primero+" post radius' style='text-align:center;margin-bottom:1em'>" +
+       					"	<article class='group' id='fichero_"+ficheros[i].id+"'>" +
+       					"		<figure style='padding-top:1em'>" +
+       					"			<span class='badge badge-neutral' style='font-size:1.5em;color: #444444;'>"+formattedSize(ficheros[i].tamano)+ "</span><br/><br/>" +
+       					"			<span class='badge badge-neutral' style='font-size:1.5em;color: #444444;'>"+formattedTime(ficheros[i].segundos)+ "</span>" +
+           	            "		</figure>" +
+           	            "		<div class='txtwrap' style=''>" +
+           	            " 			<h6 class='heading font-x1' id=''nombreFichero"+ficheros[i].id+"'>"+ ficheros[i].descripcion +"</h6>" +
+        				"			<p>"+ formattedDateCorto(new Date(ficheros[i].fecha)) + "</p>" +
+        				"			<p><span class='badge badge-warning' id='coste_"+ficheros[i].id+"' style='font-size:1.25em;display:none'>"+ficheros[i].coste+"</span></p>"+
+           	            "		</div>" +
+           	          	"	</article>" +
+       					"</li>"
+           			);
+        			
+            		if(ficheros[i].coste <= 0) {
         				$("#coste_"+ficheros[i].id).css("display","none");
 		        		$("#fichero_"+ficheros[i].id).on( "click", function() {
     						sessionStorage.setItem("ficheroId", this.id.substring(8));

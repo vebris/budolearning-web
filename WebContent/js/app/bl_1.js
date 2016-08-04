@@ -3,82 +3,34 @@ function gestionPeticion(data){
 	sessionStorage.setItem("puntos",data.puntos);	
 }
 
-function inicioMenu(){
-	$("#menu").toggleClass("header");
-	$("#menu").append(
-		"<div class='container'>" + 
-		"	<div class='logo' align='center'>"+
-		"		<h1>" +
-		"			<a href='${pageContext.request.contextPath}/budolearning-web/index.jsp'>Budo<span>Learning</span></a>" +
-		"		</h1>"+
-		"	</div>"+
-		"	<div class='top-nav'>"+
-		"		<nav class='navbar navbar-default'>"+
-		"			<div class='container'>"+
-		"				<button id='menuButton' type='button' class='navbar-toggle collapsed' data-toggle='collapse' data-target='#bs-example-navbar-collapse-1'>Menu</button>"+
-		"			</div>"+
-		"			<div class='collapse navbar-collapse' id='bs-example-navbar-collapse-1'>"+
-		"				<ul class='nav navbar-nav' id='menu_options'>"+
-		"				</ul>	"+
-		"				<div class='clearfix'> </div>"+
-		"			</div>	"+
-		"		</nav>		"+
-		"	</div>" +
-		"</div>"
-	);
-	cargarMenuOut();
-}
-
-function cargarMenuOut(){
-	$("#menu_options").children().remove();
-	$("#menu_options").append("<li><a href='javascript:verCalendario();'>Calendario</a></li>");
-	$("#menu_options").append("<li><a href='javascript:mostrarLogin();'>Login</a></li>");
-}
-
-function cargarMenuIn(){
-	$("#menu_options").children().remove();
-	
-	var usuario = JSON.parse(sessionStorage.getItem("usuario"));
-	
-	if(usuario.rol == 'ADMINISTRADOR') {
-		
-	}
-	if(usuario.rol == 'PROFESOR' || usuario.rol == 'ADMINISTRADOR'){
-		$("#menu_options").append("<li><a href='javascript:verAlumnos();'>Alumnos</a></li>");
-	}
-	
-	$("#menu_options").append("<li><a href='javascript:verEspeciales();'>Especiales</a></li>");
-	$("#menu_options").append("<li><a href='javascript:verClubes();'>Clubes</a></li>");
-	$("#menu_options").append("<li><a href='javascript:verCalendario();'>Cursos</a></li>");
-	$("#menu_options").append("<li><a href='javascript:verDisciplinas();'>Vista Usuario</a></li>");
-	$("#menu_options").append("<li><a href='javascript:verDatosPersonales();'>Datos Personales</a></li>");
-	$("#menu_options").append("<li><a href='javascript:logout();'>Salir</a></li>");
-}
-
 function logout(){
+	
 	sessionStorage.removeItem("url");
 	sessionStorage.removeItem("usuario");
 	sessionStorage.removeItem("fecha");
 	sessionStorage.clear();
 	
-	cargarMenuOut();
+	menu(12);
 	mostrarLogin();
 }
 
-function borrarContenido(){
+function borrarContenido(disciplinas){
 	
 	if(sessionStorage.getItem("fecha") != null && ((new Date().getTime()) - (new Date(sessionStorage.getItem("fecha")).getTime()))/1000 > 60 * 60 ) {
 		return false;
 	}
 	
+	/*
 	$("#menuButton").removeClass()
 	$("#menuButton").addClass("navbar-toggle collapsed");
 	$("#menuButton").attr("aria-expanded", false);
 	
 	$("#bs-example-navbar-collapse-1").removeClass("in");
 	$("#bs-example-navbar-collapse-1").attr("aria-expanded", false);
-	
-	$("#contenido").children().remove();
+	*/
+	if(!disciplinas){
+		$("#contenido").children().remove();
+	}
 	$("#contenido").removeClass();
 	
 	return true;
@@ -127,3 +79,5 @@ function formattedTime(segundos){
 	
 	return [hour, min, seconds].join(':');
 }
+
+var monthNames = ["Ene", "Feb", "Mar", "Abr", "May", "Jun", "Jul", "Ago", "Sep", "Oct", "Novr", "Dic"];

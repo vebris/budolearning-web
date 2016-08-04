@@ -50,7 +50,7 @@ public class ClubDAO implements ClubDAOLocal {
 	@SuppressWarnings("unchecked")
 	@Override
     public List<Club> buscarTodosClubs (){
-    	Query query = entityManager.createQuery("SELECT u FROM Club u order by u.id asc");
+    	Query query = entityManager.createQuery("SELECT u FROM Club u order by u.gradoProfesor desc, u.id asc");
     	return query.getResultList();
     }
 

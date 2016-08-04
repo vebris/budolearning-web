@@ -28,6 +28,8 @@ public class Club extends AbstractModel {
 	private String email;
 	private String telefono;
 	private String web;
+	private String profesor;
+	private int gradoProfesor;
 
 	public Club() {
 	}
@@ -94,6 +96,22 @@ public class Club extends AbstractModel {
 
 	public void setLocalidad(String localidad) {
 		this.localidad = localidad;
+	}
+
+	public String getProfesor() {
+		return profesor;
+	}
+
+	public void setProfesor(String profesor) {
+		this.profesor = profesor;
+	}
+
+	public int getGradoProfesor() {
+		return gradoProfesor;
+	}
+
+	public void setGradoProfesor(int gradoProfesor) {
+		this.gradoProfesor = gradoProfesor;
 	}
 	
 

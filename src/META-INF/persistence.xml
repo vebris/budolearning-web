@@ -16,6 +16,9 @@
 		<class>es.bris.budolearning.model.Fichero</class>
 		<class>es.bris.budolearning.model.Grado</class>
 		<class>es.bris.budolearning.model.LogDownloadFile</class>
+		<class>es.bris.budolearning.model.Menu</class>
+		<class>es.bris.budolearning.model.Pagina</class>
+		<class>es.bris.budolearning.model.Parrafo</class>
 		<class>es.bris.budolearning.model.Puntos</class>
 		<class>es.bris.budolearning.model.Recurso</class>
 		<class>es.bris.budolearning.model.TipoRecurso</class>

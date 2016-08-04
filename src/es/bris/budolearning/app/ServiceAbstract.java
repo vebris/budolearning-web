@@ -39,6 +39,9 @@ import es.bris.budolearning.dao.DisciplinaGradoDAO;
 import es.bris.budolearning.dao.FicheroDAO;
 import es.bris.budolearning.dao.GradoDAO;
 import es.bris.budolearning.dao.LogDownloadFileDAO;
+import es.bris.budolearning.dao.MenuDAO;
+import es.bris.budolearning.dao.PaginaDAO;
+import es.bris.budolearning.dao.ParrafoDAO;
 import es.bris.budolearning.dao.PuntosDAO;
 import es.bris.budolearning.dao.RecursoDAO;
 import es.bris.budolearning.dao.TipoRecursoDAO;
@@ -85,6 +88,12 @@ public class ServiceAbstract {
 	protected static PuntosDAO puntosDAO;
 	@EJB
 	protected static TipoRecursoDAO tipoRecursoDAO;
+	@EJB
+	protected static MenuDAO menuDAO;
+	@EJB
+	protected static PaginaDAO paginaDAO;
+	@EJB
+	protected static ParrafoDAO parrafoDAO;
 	
 	public JsonResponse list(InputStream requestBodyStream) {return null;}
 	public JsonResponse select(InputStream requestBodyStream){return null;}

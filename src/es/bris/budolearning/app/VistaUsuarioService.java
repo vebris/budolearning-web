@@ -292,7 +292,7 @@ public class VistaUsuarioService{
 	 */
 	@POST
     @Path("/UsuarioService/olvidoContrasena/{email}")
-	public String cambioContraseña(
+	public String cambioContrasena(
 			@FormParam("email") String email,
 			@Context HttpServletResponse servletResponse
 	){

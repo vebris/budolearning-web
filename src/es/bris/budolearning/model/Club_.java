@@ -15,4 +15,6 @@ public class Club_ {
 	public static volatile SingularAttribute<Club, String> email;
 	public static volatile SingularAttribute<Club, String> telefono;
 	public static volatile SingularAttribute<Club, String> web;
+	public static volatile SingularAttribute<Club, String> profesor;
+	public static volatile SingularAttribute<Club, Integer> gradoProfesor;
 }

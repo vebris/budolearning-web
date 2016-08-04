@@ -1,23 +1,38 @@
 function verRecursos() {
-	if(!borrarContenido()) {logout(); return;}
+	if(!borrarContenido(true)) {logout(); return;}
+	
+	$("#contenido").toggleClass("wrapper row3");
+	/*
 	$("#contenido").append(
-		"<ol id='migas' class='breadcrumb'>"+
-		"	<li><span class='badge badge-warning' id='headerPuntos' style='font-size:1.25em;'>0</span></li>" +
-		"	<li id='m_disciplina'></li>" +
-		"	<li id='m_grado'></li>"+
-		"   <li id='m_recurso' class='active'></li>"+
-		"</ol>"+		
-		"<div class='banner-grids'>"+
-		"	<div id='recursos'>"+		
-		"	</div> "+
-		"</div> "
+		"<nav id='' class='clear' style='display: initial;margin:0;'>" + 
+		"	<ul class='clear' style='display:inline-flex'>"+
+		"		<li style='margin:0.25em;' ><span class='badge badge-warning' id='headerPuntos' style='font-size:1.25em;width:3.5em'>0</span></li>"+
+		"		<li style='margin:0.25em;' id='m_disciplina'></li>"+
+		"		<li style='margin:0.25em;' id='m_grado'></li>"+
+		"   	<li style='margin:0.25em;' id='m_recurso' class='active'></li>"+
+		"	</ul>"+
+		"</nav>"+
+		"<section id='contenido_div' class='hoc container clear'>"+
+		"	<ul id='recursos_list' class='nospace group'>" +
+		"	</ul>" +
+		"</section> "
 	);
+	*/
 	
 	var usuario = JSON.parse(sessionStorage.getItem("usuario"));
 	
-	$("#m_disciplina").append("<a href='javascript:verDisciplinas()'>DISCIPLINAS</a>");
-	$("#m_grado").append("<a href='javascript:verGrados()'>"+ "" + sessionStorage.getItem("disciplinaNombre") + " </a>");
-	$("#m_recurso").append(sessionStorage.getItem("gradoNombre"));
+	
+	$("#list").children().remove();
+	$("#contenido nav ul li").removeClass("active");
+	$("#m_disciplina").children().remove();
+	$("#m_grado").children().remove();
+	$("#m_recurso").children().remove();
+	$("#m_fichero").children().remove();
+	
+	$("#m_disciplina").append("<a href='javascript:verDisciplinas()' style='padding-top: 0em'><span class='badge badge-primary' id='headerPuntos' style='font-size:1.25em;'>DISCIPLINAS</span></a>");
+	$("#m_grado").append("<a href='javascript:verGrados()' style='padding-top: 0em'><span class='badge badge-primary' id='headerPuntos' style='font-size:1.25em;'>" + sessionStorage.getItem("disciplinaNombre") + "</span></a>");
+	$("#m_recurso").append("<span class='badge badge-neutral' id='headerPuntos' style='font-size:1.25em;'>" + sessionStorage.getItem("gradoNombre") + "</span>");
+	$("#m_recurso").addClass("active");
 					
 	var disciplina = {id: sessionStorage.getItem("disciplinaId")}
 	var grado = {id: sessionStorage.getItem("gradoId")}
@@ -38,32 +53,28 @@ function verRecursos() {
         	sessionStorage.setItem("recursos", JSON.stringify(recursos));
         	
         	var anterior = "";
-        	var cont = 1;
+        	var cont = 0;
         	
         	for(i=0;i<recursos.length;i++) {
         		if(anterior != recursos[i].tipo.nombre) {
         			cont++;
-        			$("#recursos").append("<div id='div_"+cont+"' class='clearfix typography-info'><h2 style='text-align:left' class='type'>"+recursos[i].tipo.nombre+"</h1></div>");
+        			$("#list").append("<div id='div_"+cont+"' class='clear typography-info'><h2 style='text-align:left' class='type'>"+recursos[i].tipo.nombre+"</h1></div>");
         		}
         		
-    			$("#div_"+cont).append(
-    				"<div id='recurso_"+recursos[i].id+"'class='col-md-4 banner-grid'> " + 
-    				"	<div class='banner-left-grid blue'> " + 
-    				"		<div class='banner-grids'> "+
-   					"			<div> "+
-   					"				<div class='col-md-2 banner-grid'>" +
-   					"					<span class='badge' style='font-size:1.5em'>"+recursos[i].numVideos+ "</span>" +
-    				"				</div>" +
-       				"				<div class='col-md-10 banner-grid' style='text-align:left;color:#FFF'> " +
-    				"					<p id='nombreRecurso"+recursos[i].id+"'>" + recursos[i].nombre + "</p> " +
-    				"				</div>" +
-    				"			</div>" +
-    				"		</div> " + 
-    				"		<div class='clearfix'> </div> " + 
-    				"	</div> " + 
-    				"</div> "
-				);
-    		
+        		if(cont%4==0) primero='first'; else primero='';
+        		$("#div_"+cont).append(
+   					"<li class='one_quarter "+primero+" post radius' style='text-align:center;margin-bottom:1em'>" +
+   					"	<article class='group' id='recurso_"+recursos[i].id+"'>" +
+   					"		<figure style='width:100%;margin-top:2.5em'>" +
+   					"			<span class='badge' style='font-size:2.5em;font-weight:bold'>"+recursos[i].numVideos+ "</span>"+
+       	            "		</figure>" +
+       	            "		<div class='txtwrap' style='width:100%;padding-bottom:0'>" +
+       	            " 			<h6 class='heading font-x09 font-bold' id='nombreRecurso"+recursos[i].id+"'>"+ recursos[i].nombre +"</h6>" +
+       	            "		</div>" +
+       	          	"	</article>" +
+   					"</li>"
+       			);
+        		
         		if(recursos[i].numVideos == 0) {
         			$("#recurso_"+recursos[i].id + ">td>span").addClass("badge-warning");
         		} else {

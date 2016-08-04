@@ -1,13 +1,13 @@
 function verEspeciales(){
 	if(!borrarContenido()) {logout(); return;}
 	
-	$("#contenido").toggleClass("bs-docs-example");
+	$("#contenido").toggleClass("wrapper row3");
 	
 	$("#contenido").append(
-		"<div class='banner-grids'>"+
-		"	<div id='ficheros'>"+		
-		"	</div> "+
-		"</div> "
+		"<section id='contenido_div' class='hoc container clear'>"+
+		"	<ul id='ficheros_list' class='nospace group'>" +
+		"	</ul>" +
+		"</section> "
 	);
 	
 	var usuario = JSON.parse(sessionStorage.getItem("usuario"));
@@ -35,28 +35,26 @@ function verEspeciales(){
         			usuario = "<p>&nbsp;</p>";
         		}
         		
-    			$("#ficheros").append(
-    				"<div id='fichero_"+ficheros[i].fichero.id+"'class='col-md-6 banner-grid'> " + 
-    				"	<div class='banner-left-grid blue'> " + 
-    				"		<div class='banner-grids'> "+
-   					"			<div> "+
-   					"				<div class='col-md-2 banner-grid'>" +
-   					"					<span class='badge' style='font-size:1.5em;'>"+formattedSize(ficheros[i].fichero.tamano)+ "</span>"+
-    				"				</div>" +
-       				"				<div class='col-md-10 banner-grid' style='text-align:left;color:#FFF'> " +
-    				"					<p id='nombreFichero"+ficheros[i].fichero.id+"'>"+
+        		if(i%2==0) { clear = 'first'; } else { clear = ''; }
+        		
+        		$("#ficheros_list").append(
+       					"<li class='"+clear+" one_half post radius' style='text-align:center;margin-bottom:1em'>" +
+       					"	<article class='group' id='fichero_"+ficheros[i].fichero.id+"'>" +
+       					"		<figure style='padding-top:5em'>" +
+       					"			<span class='badge badge-neutral' style='font-size:1.5em;color: #444444;'>"+formattedSize(ficheros[i].fichero.tamano)+ "</span><br/><br/>" +
+       					"			<span class='badge badge-neutral' style='font-size:1.5em;color: #444444;'>"+formattedTime(ficheros[i].fichero.segundos)+ "</span>" +
+           	            "		</figure>" +
+           	            "		<div class='txtwrap' style='text-align:left;font-size:large'>" +
+           	            " 			<p id='nombreFichero"+ficheros[i].fichero.id+"'>"+
     										ficheros[i].fichero.descripcion +
-    				"					</p> " +
-    				"					<p>"+ ficheros[i].club.nombre + "</p>" +
+    					"					</p> " +
+    					"					<p>"+ ficheros[i].club.nombre + "</p>" +
     									usuario +
-    				"					<p>"+ formattedDateCorto(new Date(ficheros[i].inicio)) + " - " + formattedDateCorto(new Date(ficheros[i].fin)) + "</p>" +
-    				"				</div>" +
-    				"			</div>" +
-    				"		</div> " + 
-    				"		<div class='clearfix'> </div> " + 
-    				"	</div> " + 
-    				"</div> "
-    			);
+    					"					<p>"+ formattedDateCorto(new Date(ficheros[i].inicio)) + " - " + formattedDateCorto(new Date(ficheros[i].fin)) + "</p>" +
+           	            "		</div>" +
+           	          	"	</article>" +
+       					"</li>"
+           			);
         		
     			$("#fichero_"+ficheros[i].fichero.id).on( "click", function() {
 					sessionStorage.setItem("ficheroId", this.id.substring(8));

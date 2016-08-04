@@ -1,13 +1,15 @@
 function verCalendario() {
 	if(!borrarContenido()) {logout(); return;}
 	
-	$("#contenido").toggleClass("bs-docs-example");
-	$("#contenido").append(
-			"<div class='banner-grids'>"+
-			"	<div id='calendario'>"+
-			"	</div> "+
-			"</div> "
-	);
+	$("#contenido").addClass("wrapper row3");
+	$("#contenido").append("<section id='contenido_div' class='hoc container clear'>" +
+			//"	<div class='center btmspace-80'>" +
+			//" 		<h2 class='font-x3'>Calendario</h2> "+
+			//"		<p></p>" +
+			//"	</div>" +
+			"	<ul id='calendar_list' class='nospace group'>" +
+			"	</ul>" +
+			"</section>");
 	$.ajax({
         type: "POST",
         url: "/rest/Curso/list",
@@ -17,29 +19,27 @@ function verCalendario() {
         	var cursos = datos.data;
         	
        		for(i=0;i<cursos.length;i++){
-       			$("#calendario").append(
-       					"<div id='curso_"+cursos[i].id+"' class='col-md-12 banner-grid'> " +
-       					"	<div class='banner-left-grid blue'> " +
-       					"		<div class='banner-grids'> "+
-       					"			<div> "+
-       					"				<div class='col-md-2 banner-grid'>" +
-	       				"					<img src='/rest/Curso/downloadFile/0/"+cursos[i].id +"' style='max-height: 150px;max-width: 150px;'>" +
-	       				"				</div>" +
-	       				"				<div class='col-md-10 banner-grid' style='text-align:left;color:#FFF'> " +
-	       				"					<p id='nombreCurso"+cursos[i].id+"'>"+cursos[i].nombre+" </p>" +
-	       				"					<p>" +
-       					"						Inicio: "+formattedDate(new Date(cursos[i].inicio))+"<br/>" +
-       					"						Fin: "+formattedDate(new Date(cursos[i].fin))+
-       					"					</p>" +
-       					"					<p>"+cursos[i].profesor+" </p>" +
-       					"					<p>"+cursos[i].direccion+"</p>" +
-       					"				</div> " +
-       					"			</div> " +
-       					"		</div>" + 
-       					"		<div class='clearfix'> </div> " + 
-       					"	</div> " + 
-       					"</div> " 
-       					);
+       			if(i%2==0) primero='first'; else primero='';
+       			inicio = new Date(cursos[i].inicio);
+       			fin = new Date(cursos[i].fin);
+       			$("#calendar_list").append(
+       					"<li class='one_half "+primero+" post radius' style='text-align:center;margin-bottom:1em'>" +
+       					"	<article class='group'>" +
+       					"		<figure><img src='/rest/Curso/downloadFile/0/" + cursos[i].id + "' alt=''> "+
+	       	            "			<figcaption>" +
+	       	            "				<time datetime='" + inicio+"'><strong>"+inicio.getUTCDate()+"</strong> <em>"+monthNames[inicio.getMonth()]+"</em></time>" +
+	       	            "			</figcaption>" +
+	       	            "		</figure>" +
+	       	            "		<div class='txtwrap' style='text-align:left'>" +
+	       	            " 			<h6 class='heading'>"+ cursos[i].nombre +"</h6>" +
+	       	            " 			<p>Desde: " + formattedDate(inicio) + "<br/>" + "Hasta: " + formattedDate (fin)+ "</p>" +
+	       	            " 			<p>" + cursos[i].profesor  + "</p>" +
+	       	            " 			<p>" + cursos[i].direccion + "</p>" +
+	       	            "			<!--<footer><a href='#'>Read More</a></footer>-->" +
+	       	            "		</div>" +
+	       	          	"	</article>" +
+       					"</li>"
+       			);
        		}
       	}
 	});

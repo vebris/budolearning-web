@@ -1,12 +1,19 @@
 function verVideoEspecial() {
 	if(!borrarContenido()) {logout(); return;}
 	
+	$("#contenido").toggleClass("wrapper row3");
 	$("#contenido").append(
-			"<ol id='migas' class='breadcrumb'>"+
-			"	<li id='xx'></li>" +
-			"</ol>"
+			"<nav id='' class='clear' style='display: initial;margin:0;'>" + 
+			"	<ul class='clear' style='display:inline-flex'>"+
+			"		<li id='xx'></li>" +
+			"	</ul>"+
+			"</nav>"+
+			"<section id='contenido_div' class='hoc container clear'>"+
+			"</section> "
 		);
-	$("#xx").append("<a href='javascript:verEspeciales()'>ATRAS</a>");
+	
+	$("#xx").append("<a href='javascript:verEspeciales()' style='padding-top: 0em'><span class='badge badge-primary' id='headerPuntos' style='font-size:1.25em;'>Atr&aacute;s</span></a>");
+	
 	
 	/*
 	var usuario = JSON.parse(sessionStorage.getItem("usuario"));
@@ -29,7 +36,7 @@ function verVideoEspecial() {
 	}
 	*/
 	
-	$("#contenido").append(
+	$("#contenido_div").append(
 			"<div class='container videoContainer'>"+
 			"	<div id='jp_container_1' class='jp-video' role='application' aria-label='media player'>"+
 			"		<div class='jp-type-single'>"+
@@ -117,24 +124,46 @@ function verVideoEspecial() {
 }
 
 function verVideo() {
-	if(!borrarContenido()) {logout(); return;}
+	if(!borrarContenido(true)) {logout(); return;}
 	
+	$("#contenido").toggleClass("wrapper row3");
+	/*
 	$("#contenido").append(
-		"<ol id='migas' class='breadcrumb'>"+
-		"	<li id='m_disciplina'></li>" +
-		"	<li id='m_grado'></li>"+
-		"   <li id='m_recurso'></li>"+
-		"   <li id='m_fichero' class='active'></li>"+
-		"</ol>"
-	);
+			"<nav id='mainav' class='clear' style='display: initial;'>" + 
+			"	<ul class='clear' style='text-align:left'>"+
+			"		<li style='margin:0.25em;' id='m_disciplina'></li>" +
+			"		<li style='margin:0.25em;' id='m_grado'></li>"+
+			"   	<li style='margin:0.25em;' id='m_recurso'></li>"+
+			"   	<li style='margin:0.25em;' id='m_fichero'></li>"+
+			"	</ul>"+
+			"</nav>"+
+			"<section id='contenido_div' class='clear'>"+
+			"</section> "
+		);
+		*/
+	
+	$("#list").children().remove();
+	$("#contenido nav ul li").removeClass("active");
+	$("#m_disciplina").children().remove();
+	$("#m_grado").children().remove();
+	$("#m_recurso").children().remove();
+	$("#m_fichero").children().remove();
+	
+	$("#m_disciplina").append("<a href='javascript:verDisciplinas()' style='padding-top: 0em'><span class='badge badge-primary' id='headerPuntos' style='font-size:1.25em;'>DISCIPLINAS</span></a>");
+	$("#m_grado").append("<a href='javascript:verGrados()' style='padding-top: 0em'><span class='badge badge-primary' id='headerPuntos' style='font-size:1.25em;'>" + sessionStorage.getItem("disciplinaNombre") + "</span></a>");
+	$("#m_recurso").append("<a href='javascript:verRecursos()' style='padding-top: 0em'><span class='badge badge-primary' id='headerPuntos' style='font-size:1.25em;'>" + sessionStorage.getItem("gradoNombre") + "</span></a>");
+	$("#m_fichero").append("<a href='javascript:verFicheros()' style='padding-top: 0em'><span class='badge badge-primary' id='headerPuntos' style='font-size:1.25em;'>" + sessionStorage.getItem("recursoNombre") + "</span></a>");
+	
 	var usuario = JSON.parse(sessionStorage.getItem("usuario"));
 	
-	$("#m_disciplina").append("<a href='javascript:verDisciplinas()'>DISCIPLINAS </a>");
-	$("#m_grado").append("<a href='javascript:verGrados()'>"+ "" + sessionStorage.getItem("disciplinaNombre") + " </a>");
-	$("#m_recurso").append("<a href='javascript:verRecursos()'>"+"" + sessionStorage.getItem("gradoNombre") + " </a>");
-	$("#m_fichero").append("<a href='javascript:verFicheros()'>"+"" + sessionStorage.getItem("recursoNombre") + " </a>");
+	/*
+	$("#m_disciplina").append("<a href='javascript:verDisciplinas()' style='padding-top: 0em'><span class='badge badge-primary' id='headerPuntos' style='font-size:1.25em;'>DISCIPLINAS</span></a>");
+	$("#m_grado").append("<a href='javascript:verGrados()' style='padding-top: 0em'><span class='badge badge-primary' id='headerPuntos' style='font-size:1.25em;'>" + sessionStorage.getItem("disciplinaNombre") + "</span></a>");
+	$("#m_recurso").append("<a href='javascript:verRecursos()' style='padding-top: 0em'><span class='badge badge-primary' id='headerPuntos' style='font-size:1.25em;'>" + sessionStorage.getItem("gradoNombre") + "</span></a>");
+	$("#m_fichero").append("<a href='javascript:verFicheros()' style='padding-top: 0em'><span class='badge badge-primary' id='headerPuntos' style='font-size:1.25em;'>" + sessionStorage.getItem("recursoNombre") + "</span></a>");
+	*/
 	
-	$("#contenido").append(
+	$("#list").append(
 			"<div class='container videoContainer'>"+
 			"	<div id='jp_container_1' class='jp-video' role='application' aria-label='media player'>"+
 			"		<div class='jp-type-single'>"+

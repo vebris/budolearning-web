@@ -39,23 +39,21 @@ public class ServiceUsuario extends ServiceAbstract{
 			
 			response.setPuntos(puntosDAO.saldo(data.getId()));
 			response.setSuccess(data.getId() > 0);
-			response.setMsg(data.getId() > 0?"":"Usuario y/o contraseña erróneas");
+			response.setMsg(data.getId() > 0?"":"Usuario y/o contraseï¿½a errï¿½neas");
 			response.setData(data);
 		} else {
 			response.setSuccess(false);
-			response.setMsg("Actualice la versión");
+			response.setMsg("Actualice la versiï¿½n");
 		}
-		
-		
 		
 		return response;
 	}
 	
 	@POST
 	@Path("/Usuario/cambioContrasena")
-	public JsonResponse cambioContraseña(InputStream incomingData){
+	public JsonResponse cambioContrasena(InputStream incomingData){
 		JsonRequestUsuario request = (JsonRequestUsuario) transformInput(incomingData, JsonRequestUsuario.class);
-		Logger.getLogger(this.getClass().getSimpleName()).log(LOG_LEVEL, "(----------)" + this.getClass().getSimpleName() + ".cambioContraseña ==> " + request.getData().getMail());
+		Logger.getLogger(this.getClass().getSimpleName()).log(LOG_LEVEL, "(----------)" + this.getClass().getSimpleName() + ".cambioContraseï¿½a ==> " + request.getData().getMail());
 		
 		Usuario usuario = usuarioDAO.buscarUsuariosByEmail(request.getData().getMail());
 		String password = StringUtil.randomString(10);
@@ -69,7 +67,7 @@ public class ServiceUsuario extends ServiceAbstract{
 		JsonResponse response = new JsonResponse();
 		if(request != null && request.getUser() != null) response.setPuntos(puntosDAO.saldo(request.getUser().getId()));
 		response.setSuccess(true);
-		response.setMsg("Generada contraseña, compruebe su email para ver la nueva contraseña");
+		response.setMsg("Generada contraseï¿½a, compruebe su email para ver la nueva contraseï¿½a");
 		response.setData(null);
 		return response;
 	}
@@ -92,7 +90,7 @@ public class ServiceUsuario extends ServiceAbstract{
 			mailEJB.enviarMailUsuarioCreacion(usuario.getMail(), usuario);
 			
 			response.setSuccess(true);
-			response.setMsg("Modificación correcta.");
+			response.setMsg("Modificaciï¿½n correcta.");
 		}catch(Exception e){
 			response.setSuccess(false);
 			response.setMsg("Error al activar al usuario.");
@@ -118,7 +116,7 @@ public class ServiceUsuario extends ServiceAbstract{
 		if(request != null && request.getUser() != null) response.setPuntos(puntosDAO.saldo(request.getUser().getId()));
 		if(au != null && au.getId() > 0){
 			response.setSuccess(true);
-			response.setMsg("Modificación correcta.");
+			response.setMsg("Modificaciï¿½n correcta.");
 		} else {
 			response.setSuccess(false);
 			response.setMsg("Error al subir de grado.");
@@ -266,7 +264,7 @@ public class ServiceUsuario extends ServiceAbstract{
 		JsonResponse response = new JsonResponse();
 		if(request != null && request.getUser() != null) response.setPuntos(puntosDAO.saldo(request.getUser().getId()));
 		response.setSuccess(true);
-		response.setMsg("Modificación correcta");
+		response.setMsg("Modificaciï¿½n correcta");
 		response.setData(data);
 		return response;
 	}
