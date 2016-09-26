@@ -93,6 +93,8 @@ File: Layout CSS
 #comments2 div{margin-bottom:15px;}
 #comments2 input[type="submit"], #comments input[type="reset"]{display:inline-block; width:auto; min-width:150px; margin:0; padding:8px 5px; cursor:pointer;}
 
+#kyu_cabecera_min {font-size: 0.9em;}
+#kyu_cabecera {font-size: 0.9em;}
 
 /* Comments */
 #comments ul{margin:0 0 40px 0; padding:0; list-style:none;}

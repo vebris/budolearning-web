@@ -261,8 +261,8 @@ function mostrarParrafo(elemento, contenedor){
 		for(count=0;count<elementos.columnas.length;count++){
 			if(count==0){text='HOJOUNDO';} else if(count==1){text='KATA'; }else if(count==2){text='APLICACION';}else if(count==3){text='TIEMPO';}
 			$("#fila_"+elemento.id).append('	<article class="' + numero + '" >' +
-					'		<div id="kyu_cabecera_min" style="font-size: small;"> '+ text+': '+elementos.columnas[count].texto+'</div>'+
-					'		<div id="kyu_cabecera" style="font-size: small;">'+elementos.columnas[count].texto+'</div>'+
+					'		<div id="kyu_cabecera_min"> '+ text+': '+elementos.columnas[count].texto+'</div>'+
+					'		<div id="kyu_cabecera">'+elementos.columnas[count].texto+'</div>'+
 					'	</article>'
 			);
 		}

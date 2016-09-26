@@ -31,6 +31,7 @@ import com.google.gson.JsonSyntaxException;
 
 import es.bris.budolearning.app.json.JsonRequest;
 import es.bris.budolearning.app.json.JsonResponse;
+import es.bris.budolearning.dao.AndroidDAO;
 import es.bris.budolearning.dao.ArticuloDAO;
 import es.bris.budolearning.dao.ClubDAO;
 import es.bris.budolearning.dao.CursoDAO;
@@ -94,6 +95,8 @@ public class ServiceAbstract {
 	protected static PaginaDAO paginaDAO;
 	@EJB
 	protected static ParrafoDAO parrafoDAO;
+	@EJB
+	protected static AndroidDAO androidDAO;
 	
 	public JsonResponse list(InputStream requestBodyStream) {return null;}
 	public JsonResponse select(InputStream requestBodyStream){return null;}

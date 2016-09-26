@@ -27,7 +27,7 @@ function mostrarLogin() {
 		"		</div>" +
 		"	</div>"+
 		"	<h4 >"+
-		"		<a href='http://budolearning.noip.me/rest/UtilesService/descargarUltimaVersion' target='_blank'>"+
+		"		<a href='/rest/UtilesService/descargarUltimaVersion' target='_blank'>"+
 		"		  <img width='24' height='24' src='img/android.png' style='height:24'/> Aplicaci&oacute;n Android"+
 		"		</a>"+
 		"	</h4>"+

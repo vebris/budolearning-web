@@ -5,8 +5,14 @@ import java.util.Date;
 import java.util.List;
 import java.util.logging.Logger;
 
+import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
+import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.ResponseBuilder;
+import javax.ws.rs.core.Response.Status;
 
 import es.bris.budolearning.app.json.JsonRequestPuntos;
 import es.bris.budolearning.app.json.JsonRequestUsuario;
@@ -144,6 +150,47 @@ public class ServiceUtiles extends ServiceAbstract{
 		response.setData(data);
 		return response;
 		
+	}
+	
+	
+	 /* *****************************************************************************************
+     * 
+     * 							UTILES
+     * 
+     * *****************************************************************************************
+     */
+    
+	/**
+	 * @param version
+	 * @return
+	 */
+	@GET
+	@Path("/UtilesService/comprobarVersion/{version}")
+	public boolean comprobarVersion (@PathParam("version") int version){
+		Logger.getLogger(this.getClass().getCanonicalName()).log(LOG_LEVEL, "Service comprobarVersion " + "(" + version + ")");
+		Android ultimaVersion = vistaUsuarioDAO.obtenerUltimaVersion();
+		if(version < ultimaVersion.getNumVersion()){
+			return true;
+		}
+		return false;
+	}
+	@GET
+	@Path("/UtilesService/descargarUltimaVersion/")
+	@Produces("*/*")
+	public Response downloadUltimaVersion() {
+		Logger.getLogger(this.getClass().getSimpleName()).log(LOG_LEVEL, this.getClass().getSimpleName() + ".downloadUltimaVersion");
+		
+		Android ultimaVersion = vistaUsuarioDAO.obtenerUltimaVersion();
+		Logger.getLogger(this.getClass().getCanonicalName()).log(LOG_LEVEL, "Service descargarUltimaVersion " + ultimaVersion.getId());
+		if(ultimaVersion != null && ultimaVersion.getFichero() != null && ultimaVersion.getFichero().length>0){
+			ResponseBuilder response = Response.ok((Object) ultimaVersion.getFichero());
+			response.header("Content-Disposition", "attachment; filename=\"budolearning.apk\"");
+			response.type("application/vnd.android.package-archive");
+			return response.build();
+		} else {
+			ResponseBuilder response = Response.status(Status.BAD_REQUEST);
+			return response.build();
+		}
 	}
 
 }
