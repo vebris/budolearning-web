@@ -11,4 +11,5 @@ public class Android_ {
 	public static volatile SingularAttribute<Android, String> version;
 	public static volatile SingularAttribute<Android, byte[]> fichero;
 	public static volatile SingularAttribute<Android, Integer> numVersion;
+	public static volatile SingularAttribute<Android, String> aplicacion;
 }

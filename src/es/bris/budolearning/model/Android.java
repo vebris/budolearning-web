@@ -32,6 +32,7 @@ public class Android extends AbstractModel {
 	@Lob
 	@JsonIgnore
 	private byte[] fichero;
+	private String aplicacion;
 
 	public Android() {
 	}
@@ -66,6 +67,14 @@ public class Android extends AbstractModel {
 
 	public void setFichero(byte[] fichero) {
 		this.fichero = fichero;
+	}
+
+	public String getAplicacion() {
+		return aplicacion;
+	}
+
+	public void setAplicacion(String aplicacion) {
+		this.aplicacion = aplicacion;
 	}
 
 	

@@ -68,7 +68,7 @@ function verRegistroUsuario() {
 		"		<input type='text' id='localidad' class='form-control' placeholder='localidad' aria-describedby='basic-addon1'>"+
 		"	</div>"+
 		"	<h1>"+
-		"		<a href='javascript:guardarUsuario()'><span class='cls_button'>Guardar</span></a>"+
+		"		<a href='javascript:registrarUsuario()'><span class='cls_button'>Guardar</span></a>"+
 		"	</h1>"+
 		"</div>"
 	);
@@ -109,13 +109,13 @@ function validoRegistroUsuario(){
 function registrarUsuario(){
 	$("#headerTitle>.alert").remove();
 	if(validoRegistroUsuario()){
+		var activo = $("#activo").val()=='on';
 		var entrena = { id: $("#entrena").val() };
 		var usuario = {
-				id: $("#id").val(),
 				login: $("#login").val(),
 				password: $("#password").val().length>0?CryptoJS.MD5($("#password").val()).toString():null,
 				rol: $("#rol").val(), 
-				activo: $("#activo").val(),
+				activo: activo,
 				entrena: entrena,
 				nombre: $("#nombre").val(),
 				apellido1: $("#apellido1").val(),

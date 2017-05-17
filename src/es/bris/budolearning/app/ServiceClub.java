@@ -109,6 +109,9 @@ public class ServiceClub extends ServiceAbstract{
 		if(request.getData().getWeb() != null) {
 			data.setWeb(request.getData().getWeb());
 		}
+		if(request.getData().getProfesor() != null) {
+			data.setProfesor(request.getData().getProfesor());
+		}
 		data = clubDAO.modificar(data);
 		
 		JsonResponse response = new JsonResponse();

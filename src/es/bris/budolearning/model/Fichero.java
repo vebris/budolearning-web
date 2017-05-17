@@ -52,11 +52,12 @@ public class Fichero extends AbstractModel {
 	private long visitas;
 	private int coste;
 	private int segundos;
+	private Boolean propio;
 
 	public Fichero() {
 	}
 	
-	public Fichero(int id, String descripcion, String nombreFichero, String extension, Date fecha, Recurso recurso, Boolean activo, long tamano, long visitas, int coste, int segundos) {
+	public Fichero(int id, String descripcion, String nombreFichero, String extension, Date fecha, Recurso recurso, Boolean activo, long tamano, long visitas, int coste, int segundos, Boolean propio) {
 		this.id = id;
 		this.descripcion = descripcion;
 		this.nombreFichero = nombreFichero;
@@ -68,6 +69,7 @@ public class Fichero extends AbstractModel {
 		this.visitas = visitas;
 		this.coste = coste;
 		this.segundos=segundos;
+		this.propio=propio;
 	}
 	public Fichero(int id, String descripcion, String nombreFichero, String extension, Date fecha, Recurso recurso) {
 		this.id = id;
@@ -199,6 +201,14 @@ public class Fichero extends AbstractModel {
 
 	public void setSegundos(int segundos) {
 		this.segundos = segundos;
+	}
+
+	public Boolean getPropio() {
+		return propio;
+	}
+
+	public void setPropio(Boolean propio) {
+		this.propio = propio;
 	}
 	
 }

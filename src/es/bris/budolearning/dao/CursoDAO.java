@@ -65,8 +65,8 @@ public class CursoDAO implements CursoDAOLocal {
 		Calendar fechaFin = Calendar.getInstance();
 		fechaFin.setTimeInMillis(0);
 		fechaFin.set(Calendar.DAY_OF_MONTH, 1);
-		fechaFin.set(Calendar.MONTH, mes+4);
-		fechaFin.set(Calendar.YEAR, ano);
+		fechaFin.set(Calendar.MONTH, 1);
+		fechaFin.set(Calendar.YEAR, ano+2);
 		query.setParameter("inicio", fechaInicio.getTime());
 		query.setParameter("fin", fechaFin.getTime());
     	return query.getResultList();

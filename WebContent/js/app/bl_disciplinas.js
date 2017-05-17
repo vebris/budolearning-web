@@ -72,4 +72,7 @@ function verDisciplinas() {
 			}
       	}
 	});
+	
+	(adsbygoogle = window.adsbygoogle || []).push({});
+	
 }

@@ -1,8 +1,10 @@
 package es.bris.budolearning.app;
 
 import java.io.File;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.StringWriter;
 import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Type;
 import java.util.Date;
@@ -15,6 +17,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.ResponseBuilder;
 
+import org.apache.commons.io.IOUtils;
 import org.jboss.resteasy.plugins.providers.multipart.MultipartFormDataInput;
 
 import com.google.gson.Gson;
@@ -162,23 +165,25 @@ public class ServiceAbstract {
 
 	public JsonRequest transformInput(InputStream requestBodyStream, Class<?> cls){
 		try {
-			JsonSerializer<Date> ser = new JsonSerializer<Date>() {
+			JsonSerializer<Date> dateSer = new JsonSerializer<Date>() {
 			  @Override
 			  public JsonElement serialize(Date src, Type typeOfSrc, JsonSerializationContext context) {
 			    return src == null ? null : new JsonPrimitive(src.getTime());
 			  }
 			};
 
-			JsonDeserializer<Date> deser = new JsonDeserializer<Date>() {
+			JsonDeserializer<Date> dateDeser = new JsonDeserializer<Date>() {
 			  @Override
 			  public Date deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
 			    return json == null ? null : new Date(json.getAsLong());
 			  }
 			};
-
+			
 			Gson gson = new GsonBuilder()
-			   .registerTypeAdapter(Date.class, ser)
-			   .registerTypeAdapter(Date.class, deser).create();
+			   .registerTypeAdapter(Date.class, dateSer)
+			   .registerTypeAdapter(Date.class, dateDeser)
+			   .create();
+			
 			return (JsonRequest) gson.fromJson(new InputStreamReader(requestBodyStream, "UTF-8"), cls);
 		} catch (JsonSyntaxException | JsonIOException | UnsupportedEncodingException e) {
 			e.printStackTrace();

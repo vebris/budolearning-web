@@ -6,8 +6,11 @@ import java.util.List;
 import java.util.logging.Logger;
 
 import javax.ws.rs.Consumes;
+import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
@@ -135,4 +138,19 @@ public class ServiceRecurso extends ServiceAbstract{
 		return Response.status(200).entity("uploadFile is called, NOT SUPPORTED: ").build();
 	}
 
+	
+	@GET
+	@Override
+	@Path("/Recurso/downloadFile/{idUser}/{idArma}")
+	@Produces("*/*")
+    public Response downloadFile(@PathParam("idUser") Integer idUsuario, @PathParam("idArma") Integer idArma) {
+		//Logger.getLogger(this.getClass().getSimpleName()).log(LOG_LEVEL, this.getClass().getSimpleName() + ".downloadFile ==> " + idFichero);
+		
+		return downloadFile(
+				idUsuario, 
+				idArma, 
+				"arma_",
+				"jpg");
+	}
+	
 }

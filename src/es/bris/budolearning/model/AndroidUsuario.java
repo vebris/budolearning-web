@@ -143,6 +143,7 @@ public class AndroidUsuario {
 		private int id;
 		private String nombre;
 		private AndroidTipoRecurso tipo;
+		private AndroidTipoArma arma;
 		private List<AndroidFichero> ficheros;
 		private int numVideos;
 		private int numPdf;
@@ -154,12 +155,13 @@ public class AndroidUsuario {
 				id = recurso.getId();
 				nombre = recurso.getNombre();
 				tipo = new AndroidTipoRecurso(recurso.getTipo());
+				arma = new AndroidTipoArma(recurso.getArma());
 				numVideos = recurso.getNumVideos();
 				numPdf = recurso.getNumPdf();
 				enPrograma = recurso.isEnPrograma();
 			}
 		}
-		public boolean isEnPrograma(){ return enPrograma;}
+		public boolean disciplinas(){ return enPrograma;}
 		public void setEnPrograma(boolean enPrograma){this.enPrograma=enPrograma;}
 		public int getNumVideos(){return numVideos;}
 		public void setNumVideos(int numVideos){this.numVideos=numVideos;}
@@ -180,6 +182,12 @@ public class AndroidUsuario {
 		public AndroidTipoRecurso getTipo() {
 			return tipo;
 		}
+		public AndroidTipoArma getArma() {
+			return arma;
+		}
+		public void setTipoArma(AndroidTipoArma arma) {
+			this.arma = arma;
+		}
 		public void setTipo(AndroidTipoRecurso tipo) {
 			this.tipo = tipo;
 		}
@@ -189,6 +197,7 @@ public class AndroidUsuario {
 		public void setFicheros(List<AndroidFichero> ficheros) {
 			this.ficheros = ficheros;
 		}
+		public boolean isEnPrograma(){return enPrograma;}
 	}
 	public class AndroidTipoRecurso{
 		private int id;
@@ -223,6 +232,39 @@ public class AndroidUsuario {
 			this.nombre = nombre;
 		}
 	}
+	public class AndroidTipoArma{
+		private int id;
+		private String descripcion;
+		private String nombre;
+		
+		public AndroidTipoArma(){}
+		public AndroidTipoArma(TipoArma tipoArma){
+			if(tipoArma != null){
+				id = tipoArma.getId();
+				nombre = tipoArma.getNombre();
+				descripcion = tipoArma.getDescripcion();
+			}
+		}
+		
+		public int getId() {
+			return id;
+		}
+		public void setId(int id) {
+			this.id = id;
+		}
+		public String getDescripcion() {
+			return descripcion;
+		}
+		public void setDescripcion(String descripcion) {
+			this.descripcion = descripcion;
+		}
+		public String getNombre() {
+			return nombre;
+		}
+		public void setNombre(String nombre) {
+			this.nombre = nombre;
+		}
+	}
 	public class AndroidFichero{
 		private int id;
 		private String descripcion;
@@ -234,6 +276,8 @@ public class AndroidUsuario {
 		private long tamano;
 		private long visitas;
 		private int coste;
+		private Boolean propio;
+		private int segundos;
 		
 		public AndroidFichero(){}
 		public AndroidFichero(Fichero fichero){
@@ -247,6 +291,8 @@ public class AndroidUsuario {
 				activo = fichero.getActivo();
 				tamano = fichero.getTamano();
 				visitas = fichero.getVisitas();
+				propio = fichero.getPropio();
+				segundos = fichero.getSegundos();
 				setCoste(fichero.getCoste());
 			}
 		}
@@ -310,6 +356,18 @@ public class AndroidUsuario {
 		}
 		public void setCoste(int coste) {
 			this.coste = coste;
+		}
+		public Boolean getPropio() {
+			return propio;
+		}
+		public void setPropio(Boolean propio) {
+			this.propio = propio;
+		}
+		public int getSegundos() {
+			return segundos;
+		}
+		public void setSegundos(int segundos) {
+			this.segundos = segundos;
 		}
 	}
 	

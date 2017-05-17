@@ -39,11 +39,35 @@ public class ServiceUsuario extends ServiceAbstract{
 			
 			response.setPuntos(puntosDAO.saldo(data.getId()));
 			response.setSuccess(data.getId() > 0);
-			response.setMsg(data.getId() > 0?"":"Usuario y/o contraseï¿½a errï¿½neas");
+			response.setMsg(data.getId() > 0?"":"Usuario y/o password erroneos");
 			response.setData(data);
 		} else {
 			response.setSuccess(false);
-			response.setMsg("Actualice la versiï¿½n");
+			response.setMsg("Actualice la version");
+		}
+		
+		return response;
+	}
+	@POST
+	@Path("/Usuario/aeok/login")
+	public JsonResponse loginAEOK(InputStream incomingData) {
+		JsonRequestUsuario request = (JsonRequestUsuario) transformInput(incomingData, JsonRequestUsuario.class);
+		Logger.getLogger(this.getClass().getSimpleName()).log(LOG_LEVEL, "(----------)" + this.getClass().getSimpleName() + ".login ==> " + request.getData().getLogin() + " " + request.getData().getPassword() + " ("+request.getVersion()+")");
+		
+		Android ultimaVersion = vistaUsuarioDAO.obtenerUltimaVersion("aeok");
+		JsonResponse response = new JsonResponse();
+		
+		if(ultimaVersion.getNumVersion() <= request.getVersion() || request.getVersion() == 0){
+			AndroidUsuario data = vistaUsuarioDAO.loginAndroid(request.getData().getLogin(), request.getData().getPassword(), request.getVersion());
+			puntosDAO.anadir(data.getId(), new Date(), Constants.TIPO_PUNTOS_LOGIN, Constants.CANTIDAD_PUNTOS_LOGIN, null);
+			
+			response.setPuntos(puntosDAO.saldo(data.getId()));
+			response.setSuccess(data.getId() > 0);
+			response.setMsg(data.getId() > 0?"":"Usuario y/o password erroneos");
+			response.setData(data);
+		} else {
+			response.setSuccess(false);
+			response.setMsg("Actualice la version");
 		}
 		
 		return response;
@@ -67,7 +91,7 @@ public class ServiceUsuario extends ServiceAbstract{
 		JsonResponse response = new JsonResponse();
 		if(request != null && request.getUser() != null) response.setPuntos(puntosDAO.saldo(request.getUser().getId()));
 		response.setSuccess(true);
-		response.setMsg("Generada contraseï¿½a, compruebe su email para ver la nueva contraseï¿½a");
+		response.setMsg("Generada contraseña, compruebe su email para ver la nueva contraseña");
 		response.setData(null);
 		return response;
 	}
@@ -90,7 +114,7 @@ public class ServiceUsuario extends ServiceAbstract{
 			mailEJB.enviarMailUsuarioCreacion(usuario.getMail(), usuario);
 			
 			response.setSuccess(true);
-			response.setMsg("Modificaciï¿½n correcta.");
+			response.setMsg("Modificacion correcta.");
 		}catch(Exception e){
 			response.setSuccess(false);
 			response.setMsg("Error al activar al usuario.");
@@ -164,15 +188,20 @@ public class ServiceUsuario extends ServiceAbstract{
 	@Path("/Usuario/insert")
 	public JsonResponse insert(InputStream incomingData) {
 		JsonRequestUsuario request = (JsonRequestUsuario) transformInput(incomingData, JsonRequestUsuario.class);
-		Logger.getLogger(this.getClass().getSimpleName()).log(LOG_LEVEL, "(" + (request.getUser()!=null?String.format("%10d", request.getUser().getId()):"----------") + ")" + this.getClass().getSimpleName() + ".insert ==> " + request.getData().getLogin());
+		try{
+			Logger.getLogger(this.getClass().getSimpleName()).log(LOG_LEVEL, "(" + (request.getUser()!=null?String.format("%10d", request.getUser().getId()):"----------") + ")" + this.getClass().getSimpleName() + ".insert ==> " + request.getData().getLogin());
+		}catch(Exception e){
+			Logger.getLogger(this.getClass().getSimpleName()).log(LOG_LEVEL, "(----------)" + this.getClass().getSimpleName() + ".insert ==> " + request.getData());
+		}
 		
 		try{
 			Usuario data = usuarioDAO.anadir(request.getData());
 			
 			Usuario responsable = usuarioDAO.buscarProfesor(data.getEntrena());
-			if(responsable == null){
+			if(responsable == null || data.getEntrena() == null || data.getEntrena().getId() == 0){
 				responsable = usuarioDAO.buscarAdministrador();
 			}
+			
 			mailEJB.enviarMailUsuarioRegistro (data.getMail(), data, responsable);
 			puntosDAO.anadir(request.getData().getId(), new Date(), Constants.TIPO_PUNTOS_INICIO, Constants.CANTIDAD_PUNTOS_INICIO, null);
 			

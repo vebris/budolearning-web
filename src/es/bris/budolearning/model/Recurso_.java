@@ -15,4 +15,7 @@ public class Recurso_ {
 	public static volatile SingularAttribute<Recurso, Boolean> enPrograma;
 	public static volatile ListAttribute<Recurso, Fichero> ficheros;
 	public static volatile SingularAttribute<Club, Integer> numFicheros;
+	public static volatile SingularAttribute<Club, Integer> numPdf;
+	public static volatile SingularAttribute<Club, Integer> numVideos;
+	
 }

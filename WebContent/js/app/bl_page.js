@@ -18,6 +18,8 @@ function page(id){
         	cargarContenido(datos.data.tipoPagina, datos.data.id, datos.data.parent);
         }
 	});
+	
+	finCargaContenido();
 }
 function subpage(id){
 	
@@ -39,6 +41,8 @@ function subpage(id){
         	cargarContenidoDer(datos);
         }
 	});
+	
+	finCargaContenido();
 }
 
 function cargarContenido (tipo, id, parent) {

@@ -20,4 +20,6 @@ public class Fichero_ {
 	public static volatile SingularAttribute<Fichero, Usuario> usuario;
 	public static volatile SingularAttribute<Fichero, Long> tamano;
 	public static volatile SingularAttribute<Fichero, Integer> coste;
+	public static volatile SingularAttribute<Fichero, Boolean> propio;
+	public static volatile SingularAttribute<Fichero, Integer> segundos;
 }

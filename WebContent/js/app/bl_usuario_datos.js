@@ -67,6 +67,14 @@ function verDatosPersonales() {
 		"	<h1>"+
 		"		<a href='javascript:guardarUsuario()'><span class='cls_button'>Guardar</span></a>"+
 		"	</h1>"+
+		"	<h1>"+
+		"       <a href='/rest/aeok/descargarUltimaVersion' target='_blank'>"+
+		"		  <img width='24' height='24' src='img/aeok.png' style='height:24'/> Aplicaci&oacute;n Android AEOK"+
+		"		</a>" +
+		"		<a href='/rest/UtilesService/descargarUltimaVersion' target='_blank'>"+
+		"		  <img width='24' height='24' src='img/bl.png' style='height:24'/> Aplicaci&oacute;n Android BL"+
+		"		</a>" +
+		"	</h1>"+
 		"</div>"
 	);
 	

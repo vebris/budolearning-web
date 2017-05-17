@@ -12,4 +12,5 @@ public class Parrafo_ {
 	public static volatile SingularAttribute<Parrafo, String> texto;
 	public static volatile SingularAttribute<Parrafo, Pagina> pagina;
 	public static volatile SingularAttribute<Parrafo, Integer> orden;
+	public static volatile SingularAttribute<Parrafo, Boolean> imagen;
 }

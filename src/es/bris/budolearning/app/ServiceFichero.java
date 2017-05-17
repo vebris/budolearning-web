@@ -27,6 +27,7 @@ import org.jboss.resteasy.plugins.providers.multipart.MultipartFormDataInput;
 import es.bris.budolearning.app.json.JsonRequestFichero;
 import es.bris.budolearning.app.json.JsonResponse;
 import es.bris.budolearning.model.Fichero;
+import es.bris.budolearning.model.Usuario;
 import es.bris.budolearning.util.MapUtil;
 
 @Path("/")
@@ -128,7 +129,7 @@ public class ServiceFichero extends ServiceAbstract{
 		response.setData(data);
 		return response;
 	}
-
+	
 	@POST
 	@Override
 	@Path("/Fichero/delete")
@@ -170,15 +171,17 @@ public class ServiceFichero extends ServiceAbstract{
 				byte[] bytes = IOUtils.toByteArray(inputStream);
 				String[] parametros = fileName.split("_");
 				int idFichero = Integer.parseInt(parametros[2].substring(0,parametros[2].indexOf(".")));
-				String requestedFile = Constants.VIDEO_PATH + "/"
-						+ idFichero
-						+ parametros[2].substring(parametros[2].indexOf("."));
-				FileOutputStream outputStream = new FileOutputStream(requestedFile);
-				outputStream.write(bytes, 0, bytes.length);
-				Logger.getLogger(this.getClass().getSimpleName()).log( LOG_LEVEL,
-						"Service uploadFile " + "(" + fileName + ") OK");
 				
 				if(idFichero>0){
+				
+					String requestedFile = Constants.VIDEO_PATH + "/"
+							+ idFichero
+							+ parametros[2].substring(parametros[2].indexOf("."));
+					FileOutputStream outputStream = new FileOutputStream(requestedFile);
+					outputStream.write(bytes, 0, bytes.length);
+					Logger.getLogger(this.getClass().getSimpleName()).log( LOG_LEVEL,
+							"Service uploadFile " + "(" + fileName + ") OK");
+					
 					Fichero fichero = ficheroDAO.obtener(idFichero);
 					fichero.setFechaModificacion(new Date());
 					fichero.setExtension(parametros[2].substring(parametros[2].indexOf(".")+1));
@@ -188,6 +191,39 @@ public class ServiceFichero extends ServiceAbstract{
 					FileWriter ff =new FileWriter(Constants.VIDEO_PATH + "/nuevos.txt", true);
 					ff.write(idFichero + "\n");
 					ff.close();
+				} else {
+					Fichero fichero = new Fichero();
+					fichero.setFecha(new Date());
+					fichero.setFechaModificacion(new Date());
+					fichero.setTamano(bytes.length);
+					fichero.setActivo(false);
+					fichero.setNombreFichero(parametros[1] + "_" + parametros[2]);
+					fichero.setExtension(parametros[2].substring(parametros[2].indexOf(".")+1));
+					fichero.setPropio(true);
+					Usuario usuario = new Usuario();
+					usuario.setId(Integer.parseInt(parametros[1]));
+					fichero = ficheroDAO.anadir(fichero);
+					
+					
+					String requestedFile = Constants.FILE_PATH + "/"
+							+ fichero.getId()
+							+ parametros[2].substring(parametros[2].indexOf("."));
+					if(fichero.getExtension().equalsIgnoreCase("MP4")){
+						requestedFile = Constants.VIDEO_PATH + "/"
+								+ fichero.getId()
+								+ parametros[2].substring(parametros[2].indexOf("."));
+						
+						FileWriter ff =new FileWriter(Constants.VIDEO_PATH + "/nuevos.txt", true);
+						ff.write(fichero.getId() + "\n");
+						ff.close();	
+					}
+					FileOutputStream outputStream = new FileOutputStream(requestedFile);
+					outputStream.write(bytes, 0, bytes.length);
+					Logger.getLogger(this.getClass().getSimpleName()).log( LOG_LEVEL,
+							"Service insertFile " + "(" + fileName + ") OK");
+					
+					//mailEJB.enviarMailNuevoFichero(fichero, usuarioDAO.buscarAdministrador());
+					
 				}
 			} catch (IOException e) {
 				Logger.getLogger(this.getClass().getSimpleName()).log(Level.SEVERE, e.getLocalizedMessage(), e);
@@ -239,6 +275,47 @@ public class ServiceFichero extends ServiceAbstract{
 				idFichero, 
 				"",
 				fichero.getExtension());
+	}
+	
+	
+	@POST
+	@Path("/Fichero/listSinRecurso")
+	public JsonResponse listSinRecurso(InputStream incomingData) {
+		JsonRequestFichero request = (JsonRequestFichero) transformInput(incomingData, JsonRequestFichero.class);
+		Logger.getLogger(this.getClass().getSimpleName()).log(LOG_LEVEL, "(" + String.format("%10d", request.getUser().getId()) + ")" + this.getClass().getSimpleName() + ".listSinRecurso " );
+		
+		List<Fichero> data = ficheroDAO.buscarFicheros(request.getUser().getId(),-1);
+		
+		JsonResponse response = new JsonResponse();
+		if(request != null && request.getUser() != null) response.setPuntos(puntosDAO.saldo(request.getUser().getId()));
+		response.setSuccess(true);
+		response.setMsg("");
+		response.setData(data);
+		return response;
+	}
+	@POST
+	@Path("/Fichero/updateRecurso")
+	public JsonResponse updateRecurso(InputStream incomingData) {
+		JsonRequestFichero request = (JsonRequestFichero) transformInput(incomingData, JsonRequestFichero.class);
+		Logger.getLogger(this.getClass().getSimpleName()).log(LOG_LEVEL, "(" + String.format("%10d", request.getUser().getId()) + ")" + this.getClass().getSimpleName() + ".update ==> " + request.getData().getId());
+		
+		Fichero fichero = ficheroDAO.obtener(request.getData().getId());
+		fichero.setActivo(true);
+		
+		if(request.getRecurso() != null) {
+			fichero.setRecurso(recursoDAO.obtener(request.getRecurso().getId()));
+			fichero = ficheroDAO.modificar(fichero);
+			//mailEJB.enviarMailNuevoFicheroAceptado(fichero, fichero.getUsuario());
+		} else {
+			//mailEJB.enviarMailNuevoFicheroRechazado(fichero, fichero.getUsuario());
+		}
+		
+		JsonResponse response = new JsonResponse();
+		if(request != null && request.getUser() != null) response.setPuntos(puntosDAO.saldo(request.getUser().getId()));
+		response.setSuccess(true);
+		response.setMsg("Modificación correcta");
+		response.setData(fichero);
+		return response;
 	}
 	
 }

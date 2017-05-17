@@ -36,6 +36,18 @@ function borrarContenido(disciplinas){
 	return true;
 }
 
+function recargarAnuncio(){
+	var e = $('#anuncio iframe');
+    e.attr("src", e.attr("src"));
+	var c = $(e);
+    c.attr("src", c.attr("src"));
+}
+
+function finCargaContenido(){
+	recargarAnuncio();
+	(adsbygoogle = window.adsbygoogle || []).push({});
+}
+
 function formattedDate(date) {
     var month = '' + (date.getMonth() + 1),
         day = '' + date.getDate(),

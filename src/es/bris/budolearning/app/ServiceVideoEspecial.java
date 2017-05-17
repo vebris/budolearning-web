@@ -78,7 +78,11 @@ public class ServiceVideoEspecial extends ServiceAbstract{
 		data.setFichero(ficheroDAO.obtener(request.getData().getFichero().getId()));
 		data.setInicio(request.getData().getInicio());
 		data.setFin(request.getData().getFin());
-		data.setUsuario(usuarioDAO.obtener(request.getData().getUsuario().getId()));
+		if(request.getData().getUsuario() != null) {
+			data.setUsuario(usuarioDAO.obtener(request.getData().getUsuario().getId()));
+		} else { 
+			data.setUsuario(null);
+		}
 		
 		videoEspecialDAO.modificar(data);
 		

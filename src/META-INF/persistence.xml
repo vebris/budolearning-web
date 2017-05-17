@@ -21,6 +21,7 @@
 		<class>es.bris.budolearning.model.Parrafo</class>
 		<class>es.bris.budolearning.model.Puntos</class>
 		<class>es.bris.budolearning.model.Recurso</class>
+		<class>es.bris.budolearning.model.TipoArma</class>
 		<class>es.bris.budolearning.model.TipoRecurso</class>
 		<class>es.bris.budolearning.model.Usuario</class>
 		<class>es.bris.budolearning.model.VideoEspecial</class>

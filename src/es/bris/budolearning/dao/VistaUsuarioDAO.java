@@ -208,7 +208,8 @@ public class VistaUsuarioDAO extends GenericDAO implements VistaUsuarioDAOLocal 
 				+ "	( f.id, f.descripcion, f.nombreFichero, f.extension, f.fecha, f.recurso, f.activo, f.tamano, "
 				+ "   (select count(l.id) from LogDownloadFile l where l.fichero.id=f.id and l.usuario.id=:idUsuario), "
 				+ "   f.coste,"
-				+ "	  f.segundos"
+				+ "	  f.segundos,"
+				+ "	  f.propio"
 				+ " ) from Fichero f "
 				+ "WHERE f.recurso.id = :idRecurso and f.activo=true "; 
 		if(version < 9 ) sql+="and f.extension not in ('pdf')";
@@ -298,7 +299,7 @@ public class VistaUsuarioDAO extends GenericDAO implements VistaUsuarioDAOLocal 
 	
 	@SuppressWarnings("unchecked")
 	public List<Fichero> ficherosRecursoUsuarioTodos(Integer idRecurso, Integer idUsuario) {
-		Query query =  getEntityManager().createQuery("Select distinct new es.bris.budolearning.model.Fichero(f.id, f.descripcion, f.nombreFichero, f.extension, f.fecha, f.recurso, f.activo, f.tamano, (select count(l.id) from LogDownloadFile l where l.fichero.id=f.id and l.usuario.id=:idUsuario), f.coste, f.segundos) from Fichero f WHERE f.recurso.id = :idRecurso");
+		Query query =  getEntityManager().createQuery("Select distinct new es.bris.budolearning.model.Fichero(f.id, f.descripcion, f.nombreFichero, f.extension, f.fecha, f.recurso, f.activo, f.tamano, (select count(l.id) from LogDownloadFile l where l.fichero.id=f.id and l.usuario.id=:idUsuario), f.coste, f.segundos, f.propio) from Fichero f WHERE f.recurso.id = :idRecurso");
 		query.setParameter("idRecurso", idRecurso);
 		query.setParameter("idUsuario", idUsuario);
 		List<Fichero> lista = (List<Fichero>) query.getResultList();
@@ -328,7 +329,7 @@ public class VistaUsuarioDAO extends GenericDAO implements VistaUsuarioDAOLocal 
 		return transformAndroidUsuario(u, versionAndroid);
 	}
 	
-	private AndroidUsuario transformAndroidUsuario(Usuario u, int versionAndroid) {
+	public AndroidUsuario transformAndroidUsuario(Usuario u, int versionAndroid) {
 		AndroidUsuario usuario = new AndroidUsuario();
 		if(u.getId() > 0){
 			usuario = new AndroidUsuario(u);
@@ -419,9 +420,14 @@ public class VistaUsuarioDAO extends GenericDAO implements VistaUsuarioDAOLocal 
 		return usuario;
 	}
 	
-	@SuppressWarnings("unchecked")
 	public Android obtenerUltimaVersion(){
-		Query query = getEntityManager().createQuery("select v FROM Android v order by id desc");
+		return obtenerUltimaVersion("budolearning");
+	}
+	
+	@SuppressWarnings("unchecked")
+	public Android obtenerUltimaVersion(String aplicacion){
+		Query query = getEntityManager().createQuery("select v FROM Android v where v.aplicacion=:aplicacion order by id desc");
+		query.setParameter("aplicacion", aplicacion);
 		List<Android> lista = query.getResultList();
 		if (lista.isEmpty())
 			return new Android();
@@ -528,5 +534,37 @@ public class VistaUsuarioDAO extends GenericDAO implements VistaUsuarioDAOLocal 
 		);
 		query.setParameter("idDisciplina", idDisciplina);
 		return (List<Grado>) query.getResultList();
+	}
+	
+	@SuppressWarnings("unchecked")
+	public List<AndroidDisciplina> obtenerTodo(){
+		Query query = getEntityManager().createQuery("SELECT d FROM Disciplina d");
+		AndroidUsuario usuario = new AndroidUsuario();
+		List<AndroidDisciplina> disciplinas = usuario.toListAndroidDisciplina((List<Disciplina>) query.getResultList());
+		usuario.setDisciplinas(disciplinas);
+		for(AndroidDisciplina ad: usuario.getDisciplinas()){
+			List<AndroidGrado> grados = usuario.toListAndroidGrado(todosGrados(ad.getId()));
+			ad.setGrados(grados);
+			for(AndroidGrado ag: ad.getGrados()){
+				List<AndroidRecurso> recursos = usuario.toListAndroidRecursos(todosRecursos(ad.getId(),ag.getId()));
+				Collections.sort(recursos, new Comparator<AndroidUsuario.AndroidRecurso>() {
+					@Override
+					public int compare(AndroidRecurso o1, AndroidRecurso o2) {
+						if(o1.isEnPrograma() && !o2.isEnPrograma()) 
+							return -1;
+						else if(!o1.isEnPrograma() && o2.isEnPrograma())
+							return 1;
+						else
+							return o1.getId() - o2.getId();
+					}
+				});
+				ag.setRecursos(recursos);
+				for(AndroidRecurso ar: ag.getRecursos()){
+					ar.setFicheros(usuario.toListAndroidFicheros(ficherosRecursoUsuarioTodos(ar.getId(), 1)));
+				}
+			}
+		}
+		return disciplinas;
+		
 	}
 }

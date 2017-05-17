@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
@@ -26,7 +27,6 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.ResponseBuilder;
-import javax.ws.rs.core.Response.Status;
 
 import org.apache.commons.io.IOUtils;
 import org.jboss.resteasy.plugins.providers.multipart.InputPart;
@@ -37,15 +37,17 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
+import es.bris.budolearning.app.json.JsonResponse;
 import es.bris.budolearning.dao.ArticuloDAO;
+import es.bris.budolearning.dao.ClubDAO;
 import es.bris.budolearning.dao.CursoDAO;
 import es.bris.budolearning.dao.FicheroDAO;
 import es.bris.budolearning.dao.LogDownloadFileDAO;
 import es.bris.budolearning.dao.RecursoDAO;
 import es.bris.budolearning.dao.UsuarioDAO;
 import es.bris.budolearning.dao.VistaUsuarioDAO;
-import es.bris.budolearning.model.Android;
 import es.bris.budolearning.model.AndroidUsuario;
+import es.bris.budolearning.model.AndroidUsuario.AndroidDisciplina;
 import es.bris.budolearning.model.Articulo;
 import es.bris.budolearning.model.Club;
 import es.bris.budolearning.model.Curso;
@@ -83,6 +85,9 @@ public class VistaUsuarioService{
 	private static RecursoDAO recursoDAO;
 	@EJB
 	private static ArticuloDAO articuloDAO;
+	@EJB
+	private static ClubDAO clubDAO;
+	
 	
 	public VistaUsuarioService(){}
 	
@@ -373,7 +378,7 @@ public class VistaUsuarioService{
 					try{
 						usuarioDAO.anadir(usuario);
 						Usuario responsable = usuarioDAO.buscarProfesor(usuario.getEntrena());
-						if(responsable == null){
+						if(responsable == null || usuario.getEntrena() == null || usuario.getEntrena().getId() == 0){
 							responsable = usuarioDAO.buscarAdministrador();
 						}
 						Logger.getLogger(this.getClass().getCanonicalName()).log(LOG_LEVEL, "(" + idUsuario + ") Service nuevoUsuario ENVIAR EMAILS");
@@ -823,4 +828,64 @@ public class VistaUsuarioService{
 	 }
  
 	
+    
+    @GET
+	@Path("/aeok/cargarTodo/")
+	public JsonResponse cargarTodo() {
+		Logger.getLogger(this.getClass().getSimpleName()).log(LOG_LEVEL, this.getClass().getSimpleName() + ".cargarTodo");
+		
+		
+		Todo data = new Todo();
+		try{
+			List<Curso> cursos = cursoDAO.buscarCursos(Calendar.getInstance().get(Calendar.MONTH), Calendar.getInstance().get(Calendar.YEAR));
+			data.setCursos(cursos);
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		try{
+			List<Club> clubes = clubDAO.buscarTodosClubs();
+			data.setClubes(clubes);
+	    }catch(Exception e){
+			e.printStackTrace();
+		}
+		try{
+			List<AndroidDisciplina> disciplinas = vistaUsuarioDAO.obtenerTodo();
+			data.setDisciplinas(disciplinas);
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		
+		JsonResponse response = new JsonResponse();
+		response.setSuccess(true);
+		response.setMsg("");
+		response.setData(data);
+		return response;
+	}
+	
+	private class Todo {
+		private List<Curso> cursos;
+		private List<Club> clubes;
+		private List<AndroidDisciplina> disciplinas;
+		@SuppressWarnings("unused")
+		public List<Curso> getCursos() {
+			return cursos;
+		}
+		public void setCursos(List<Curso> cursos) {
+			this.cursos = cursos;
+		}
+		@SuppressWarnings("unused")
+		public List<Club> getClubes() {
+			return clubes;
+		}
+		public void setClubes(List<Club> clubes) {
+			this.clubes = clubes;
+		}
+		@SuppressWarnings("unused")
+		public List<AndroidDisciplina> getDisciplinas() {
+			return disciplinas;
+		}
+		public void setDisciplinas(List<AndroidDisciplina> disciplinas) {
+			this.disciplinas = disciplinas;
+		}
+	}
 }

@@ -104,29 +104,41 @@ public class FicheroDAO implements FicheroDAOLocal {
 	/******************************************************/
 	@SuppressWarnings("unchecked")
 	public List<Fichero> buscarFicheros(int idUsuario, int idRecurso) {
+		System.out.println(" buscarFicheros:  " + idUsuario + " " + idRecurso + " ==> " + entityManager.createQuery("from Fichero f where f.recurso.id is null").getResultList().size());
 		String sql = "SELECT DISTINCT new es.bris.budolearning.model.Fichero"
 				+ "	( f.id, f.descripcion, f.nombreFichero, f.extension, f.fecha, f.recurso, f.activo, f.tamano, "
 				+ "   (select count(l.id) from LogDownloadFile l where l.fichero.id=f.id and l.usuario.id=:idUsuario), "
 				+ "   f.coste,"
-				+ "	  f.segundos"
+				+ "	  f.segundos,"
+				+ "   f.propio"
 				+ " ) from Fichero f, Usuario u "
-				+ " WHERE f.recurso.id = :idRecurso and u.id=:idUsuario "
+				+ " WHERE "
+				+ "		f.recurso.id = :idRecurso and u.id=:idUsuario "
 				+ "		and ( 	"
 				+ "				((f.activo=true and f.extension<>'pdf') or (f.activo=true and f.extension='pdf' and u.verPDF=true)) "
 				+ "				or "
 				+ "				(u.rol='ADMINISTRADOR') "
 				+ "		)"
-				+ " order by f.fecha desc"
-				;
+				+ " order by f.fecha desc";
+		
+		if(idRecurso < 0) {
+			sql = "select distinct(f) from Fichero f, Usuario u WHERE "
+					+ "		f.recurso.id = null and u.id=:idUsuario and u.rol='ADMINISTRADOR'"
+					+ " order by f.fecha desc";			
+		}
+		
+		System.out.println (sql);
 		Query query =  entityManager.createQuery(sql);
-		query.setParameter("idRecurso", idRecurso);
+		if(idRecurso > 0) {
+			query.setParameter("idRecurso", idRecurso);
+		}
 		query.setParameter("idUsuario", idUsuario);
 		List<Fichero> lista = (List<Fichero>) query.getResultList();
 		for(Fichero f:lista){
 			
 			System.out.println(idUsuario + " " + f.getId() + " ==> "+ ficheroSinCoste(idUsuario, f.getId()));
 			
-			if(ficheroSinCoste(idUsuario, f.getId())){
+			if(idRecurso < 0 || ficheroSinCoste(idUsuario, f.getId())){
 				f.setCoste(0);
 			} else {
 				int multiplicador = 1000;

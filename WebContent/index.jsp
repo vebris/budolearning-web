@@ -1,6 +1,15 @@
 <!DOCTYPE html>
 <html>
 	<head>
+		<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+		<script>
+		  (adsbygoogle = window.adsbygoogle || []).push({
+		    google_ad_client: "ca-pub-4352873042851104",
+		    enable_page_level_ads: true
+		  });
+		</script>
+	
+	
 		<title>Okinawa Kobudo: Matayoshi Ryu, Ryukyu Kobudo y Yamanni Ryu</title>
 		
 		<meta charset="UTF-8">
@@ -11,35 +20,6 @@
 		<meta name="Language" content="ES">
 		<meta name="Revisit-after" content="15">
 
-		
-		<!-- css 
-		<meta name="viewport" content="width=device-width" />
-		<title>BudoLearning</title>      
-		<script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } </script>
-		<link href="${pageContext.request.contextPath}/css/bootstrap.css" rel='stylesheet' type='text/css' />
-		<link href="${pageContext.request.contextPath}/css/style.css" rel='stylesheet' type='text/css' />
-		<script src="${pageContext.request.contextPath}/js/jquery-1.11.1.min.js"> </script>
-		<script type="text/javascript" src="${pageContext.request.contextPath}/js/jquery.js"></script>
-		<link href="${pageContext.request.contextPath}/css/jquery-ui.min.css" rel='stylesheet' type='text/css' />
-		<link href="${pageContext.request.contextPath}/css/jquery-ui.structure.min.css" rel='stylesheet' type='text/css' />
-		<link href="${pageContext.request.contextPath}/css/jquery-ui.theme.min.css" rel='stylesheet' type='text/css' />
-		<script type="text/javascript" src="${pageContext.request.contextPath}/js/jquery-ui.min.js"></script>
-		<script src="/js/bootstrap.js"></script>
-		<script type="text/javascript">
-			jQuery(document).ready(function($) {
-				$(".scroll").click(function(event){		
-					event.preventDefault();
-					$('html,body').animate({scrollTop:$(this.hash).offset().top},1000);
-				});
-			});
-		</script>	
-		
-		-->
-		
-		<!-- <link href="${pageContext.request.contextPath}/css/bootstrap.css" rel='stylesheet' type='text/css' />
-		<link href="${pageContext.request.contextPath}/css/style.css" rel='stylesheet' type='text/css' />
-		-->
-		
 		<script type="text/javascript" src="${pageContext.request.contextPath}/js/rollups/md5.js"></script>
 		
 		<link href="${pageContext.request.contextPath}/css/layout.css" rel="stylesheet" type="text/css" media="all">
@@ -56,10 +36,8 @@
 		  <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
 		  <script src="http://css3-mediaqueries-js.googlecode.com/svn/trunk/css3-mediaqueries.js"></script>
 		<![endif]-->
-		
 	</head>   
 	<body id="top" onload="menu();">
-		
 		<div class='wrapper row0'>
 			<header id='header' class='hoc clear'>
 				<div id='logo'>
@@ -72,12 +50,27 @@
 	   	<div id="menu" class="wrapper row1">
 	   	</div>
 	
-		<div id="contenido" class="wrapper row3">
+		<div class="wrapper row3">
+			<div id="anuncioGoogle" align="center">
+				<!-- web budolearning -->
+				<ins class="adsbygoogle"
+				     style="display:block"
+				     data-ad-client="ca-pub-4352873042851104"
+				     data-ad-slot="7176591475"
+				     data-ad-format="auto"></ins>
+			</div>
+			<div id="anuncio" align="center">
+				<SCRIPT SRC="http://bdv.bidvertiser.com/BidVertiser.dbm?pid=771321&bid=1885802" TYPE="text/javascript"></SCRIPT>
+			</div>
+			<div id="contenido">
+			
+			</div>
+		
 		</div>
 		
 		<div class="wrapper row5">
 		  <div id="copyright" class="hoc clear"> 
-		    <p class="fl_left">Copyright © 2016 - All Rights Reserved - <a href=".">BudoLearning</a></p>
+		    <p class="fl_left">Copyright © 2015-2017 - All Rights Reserved - <a href=".">BudoLearning</a></p>
 		  </div>
 		</div>
    	
@@ -111,23 +104,12 @@
    		
    			$(function(){
    				if(window.location.hash == ''){
-   					page(1);
+   					//page(1);
+   					page(2);seleccionarMenu(2);
    				}
-   			});
+			});
    		</script>
    	
-   		
-		<script>
-		  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-		  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-		  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-		  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-		
-		  ga('create', 'UA-74068696-1', 'auto');
-		  ga('send', 'pageview');
-		</script>
-		
-		 
-		 <a id="backtotop" href="#top"><i class="fa fa-chevron-up"></i></a>
+		<a id="backtotop" href="#top"><i class="fa fa-chevron-up"></i></a>
 	</body>
 </html>

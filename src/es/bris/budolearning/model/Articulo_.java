@@ -15,4 +15,5 @@ public class Articulo_ {
 	public static volatile SingularAttribute<Android, String> titulo;
 	public static volatile SingularAttribute<Android, String> autor;
 	public static volatile SingularAttribute<Android, String> texto;
+	public static volatile SingularAttribute<Android, Boolean> visibleUsuarios;
 }

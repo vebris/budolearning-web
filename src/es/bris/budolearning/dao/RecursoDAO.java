@@ -103,13 +103,15 @@ public class RecursoDAO implements RecursoDAOLocal {
 	}
 	@SuppressWarnings("unchecked")
 	public List<Recurso> buscarRecursosDisciplinaGrado(int idDisciplina, int idGrado) {
-		Query query = entityManager.createQuery("SELECT distinct(r) FROM Recurso r " + 
-					" join r.disciplinaGrados dg " + 
-					" where " + 
-					"   (:idGrado = 0 OR dg.grado.id=:idGrado) " + 
-					"   and " + 
-					"   (:idDisciplina = 0 OR dg.disciplina.id=:idDisciplina) " +
-					" order by r.enPrograma desc, r.tipo.id asc, r.id asc" );
+		
+		String strQuery = "SELECT distinct(r) FROM Recurso r " + 
+				" join r.disciplinaGrados dg " + 
+				" where " + 
+				"   (:idGrado = 0 OR dg.grado.id=:idGrado) " + 
+				"   and " + 
+				"   (:idDisciplina = 0 OR dg.disciplina.id=:idDisciplina) " +
+				" order by r.enPrograma desc, r.arma.id asc, r.tipo.id asc, r.id asc";
+		Query query = entityManager.createQuery( strQuery );
 		query.setParameter("idDisciplina", idDisciplina);
 		query.setParameter("idGrado", idGrado);
     	return query.getResultList();
@@ -136,5 +138,7 @@ public class RecursoDAO implements RecursoDAOLocal {
 			return query.getResultList();
 		}
 	}
+	
+	
 
 }

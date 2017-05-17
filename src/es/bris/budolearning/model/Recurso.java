@@ -35,6 +35,8 @@ public class Recurso extends AbstractModel {
 	private String nombre;
 	@ManyToOne
 	private TipoRecurso tipo;
+	@ManyToOne
+	private TipoArma arma;
 
 	@ManyToMany(fetch=FetchType.EAGER)
 	@JoinTable(
@@ -112,6 +114,12 @@ public class Recurso extends AbstractModel {
 	}
 	public void setTipo(TipoRecurso tipo) {
 		this.tipo = tipo;
+	}
+	public TipoArma getArma() {
+		return arma;
+	}
+	public void setArma(TipoArma arma) {
+		this.arma = arma;
 	}
 	public List<Fichero> getFicheros() {
 		return ficheros;

@@ -27,12 +27,14 @@ function mostrarLogin() {
 		"		</div>" +
 		"	</div>"+
 		"	<h4 >"+
-		"		<a href='/rest/UtilesService/descargarUltimaVersion' target='_blank'>"+
-		"		  <img width='24' height='24' src='img/android.png' style='height:24'/> Aplicaci&oacute;n Android"+
+		"		<a href='/rest/aeok/descargarUltimaVersion' target='_blank'>"+
+		"		  <img width='24' height='24' src='img/aeok.png' style='height:24'/> Aplicaci&oacute;n Android"+
 		"		</a>"+
 		"	</h4>"+
 		"</div>"
 	);	
+	
+	finCargaContenido();
 }
 
 function validoLogin(){

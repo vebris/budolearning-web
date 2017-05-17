@@ -130,6 +130,7 @@ public class UsuarioDAO implements UsuarioDAOLocal {
 	@SuppressWarnings("unchecked")
 	@Override
 	public Usuario buscarProfesor(Club club) {
+		if(club == null) return null;
 		Query query = entityManager.createQuery("SELECT u FROM Usuario u WHERE u.profesor.id = :club and activo=1");
     	query.setParameter("club", club.getId());
     	List<Usuario> profesores = query.getResultList();

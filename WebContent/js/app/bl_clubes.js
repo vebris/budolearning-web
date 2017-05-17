@@ -98,4 +98,6 @@ function verClubes() {
 			}
       	}
 	});
+	
+	finCargaContenido();
 }

@@ -1,5 +1,6 @@
 package es.bris.budolearning.app;
 
+import java.io.File;
 import java.io.InputStream;
 import java.util.Date;
 import java.util.List;
@@ -83,6 +84,7 @@ public class ServiceUtiles extends ServiceAbstract{
 		if(request != null && request.getUser() != null) response.setPuntos(puntosDAO.saldo(request.getUser().getId()));
 		response.setSuccess(request.getVersion() < ultimaVersion.getNumVersion());
 		if(request.getVersion() < ultimaVersion.getNumVersion()){
+			response.setSuccess(true);
 			response.setMsg("Existe una versión más actual que la instalada (" + ultimaVersion.getVersion() + ")");
 		}
 		return response;
@@ -179,13 +181,12 @@ public class ServiceUtiles extends ServiceAbstract{
 	@Produces("*/*")
 	public Response downloadUltimaVersion() {
 		Logger.getLogger(this.getClass().getSimpleName()).log(LOG_LEVEL, this.getClass().getSimpleName() + ".downloadUltimaVersion");
-		
-		Android ultimaVersion = vistaUsuarioDAO.obtenerUltimaVersion();
-		Logger.getLogger(this.getClass().getCanonicalName()).log(LOG_LEVEL, "Service descargarUltimaVersion " + ultimaVersion.getId());
-		if(ultimaVersion != null && ultimaVersion.getFichero() != null && ultimaVersion.getFichero().length>0){
-			ResponseBuilder response = Response.ok((Object) ultimaVersion.getFichero());
+		Android ultimaVersion = vistaUsuarioDAO.obtenerUltimaVersion("budolearning");
+		String requestedFile = Constants.FILE_PATH + "/budolearning_"+ultimaVersion.getNumVersion()+".apk";
+		File downloadFile = new File(requestedFile);
+		if(downloadFile.exists()){
+			ResponseBuilder response = Response.ok((Object) downloadFile);
 			response.header("Content-Disposition", "attachment; filename=\"budolearning.apk\"");
-			response.type("application/vnd.android.package-archive");
 			return response.build();
 		} else {
 			ResponseBuilder response = Response.status(Status.BAD_REQUEST);
@@ -193,4 +194,48 @@ public class ServiceUtiles extends ServiceAbstract{
 		}
 	}
 
+	@GET
+	@Path("/aeok/descargarUltimaVersion/")
+	@Produces("*/*")
+	public Response AEOKDownloadUltimaVersion() {
+		Logger.getLogger(this.getClass().getSimpleName()).log(LOG_LEVEL, this.getClass().getSimpleName() + ".AEOKDownloadUltimaVersion");
+		
+		Android ultimaVersion = vistaUsuarioDAO.obtenerUltimaVersion("aeok");
+		
+		String requestedFile = Constants.FILE_PATH + "/aeok_"+ultimaVersion.getNumVersion()+".apk";
+		File downloadFile = new File(requestedFile);
+		
+		if(downloadFile.exists()){
+			ResponseBuilder response = Response.ok((Object) downloadFile);
+			response.header("Content-Disposition", "attachment; filename=\"aeok.apk\"");
+			return response.build();
+		} else {
+			ResponseBuilder response = Response.status(Status.BAD_REQUEST);
+			return response.build();
+		}
+	}
+	
+	/**
+	 * @param version
+	 * @return
+	 */
+	@POST
+	@Path("/aeok/checkVersion")
+	public JsonResponse AEOKCheckVersion (InputStream incomingData){
+		JsonRequestUsuario request = (JsonRequestUsuario) transformInput(incomingData, JsonRequestUsuario.class);
+		Logger.getLogger(this.getClass().getSimpleName()).log(LOG_LEVEL, "(----------)" + this.getClass().getSimpleName() + ".AEOKCheckVersion ==> " + request.getVersion());
+		Android ultimaVersion = vistaUsuarioDAO.obtenerUltimaVersion("aeok");
+		
+		JsonResponse response = new JsonResponse();
+		response.setSuccess(request.getVersion() < ultimaVersion.getNumVersion());
+		
+		Logger.getLogger(this.getClass().getSimpleName()).log(LOG_LEVEL, request.getVersion() + " " + ultimaVersion.getNumVersion());
+		
+		if(request.getVersion() < ultimaVersion.getNumVersion()){
+			response.setSuccess(true);
+			response.setMsg("Existe una versión más actual que la instalada (" + ultimaVersion.getVersion() + ")");
+		}
+		return response;
+	}
+	
 }

@@ -121,6 +121,9 @@ function verVideoEspecial() {
 			toggleDuration: true
 		});
 		
+		
+		$("#jp_container_1").bind('contextmenu', function() {return false;});
+		$("#jquery_jplayer_1").bind('contextmenu', function() {return false;});	
 }
 
 function verVideo() {
@@ -247,5 +250,6 @@ function verVideo() {
 			remainingDuration: true,
 			toggleDuration: true
 		});
-	
+		$("#jp_container_1").bind('contextmenu', function() {return false;});
+		$("#jquery_jplayer_1").bind('contextmenu', function() {return false;});	
 }

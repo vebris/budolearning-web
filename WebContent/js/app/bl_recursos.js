@@ -65,9 +65,11 @@ function verRecursos() {
         		$("#div_"+cont).append(
    					"<li class='one_quarter "+primero+" post radius' style='text-align:center;margin-bottom:1em'>" +
    					"	<article class='group' id='recurso_"+recursos[i].id+"'>" +
-   					"		<figure style='width:100%;margin-top:2.5em'>" +
-   					"			<span class='badge' style='font-size:2.5em;font-weight:bold'>"+recursos[i].numVideos+ "</span>"+
+   					"		<figure style='width:100%'><img src='http://www.budolearning.es/rest/Recurso/downloadFile/" + usuario.id + "/"+recursos[i].arma.id +"' alt=''> "+
        	            "		</figure>" +
+//       	            "		<figure style='width:100%;margin-top:2.5em'>" +
+//   					"			<span class='badge' style='font-size:2.5em;font-weight:bold'>"+recursos[i].numVideos+ "</span>"+
+//       	            "		</figure>" +
        	            "		<div class='txtwrap' style='width:100%;padding-bottom:0'>" +
        	            " 			<h6 class='heading font-x09 font-bold' id='nombreRecurso"+recursos[i].id+"'>"+ recursos[i].nombre +"</h6>" +
        	            "		</div>" +
