@@ -1,7 +1,9 @@
 package es.bris.budolearning.dao;
 
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Random;
 
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
@@ -11,6 +13,7 @@ import javax.persistence.Query;
 
 import es.bris.budolearning.model.Club;
 import es.bris.budolearning.model.Disciplina;
+import es.bris.budolearning.model.Fichero;
 import es.bris.budolearning.model.Grado;
 import es.bris.budolearning.model.Usuario;
 import es.bris.budolearning.model.VideoEspecial;
@@ -75,6 +78,38 @@ public class VideoEspecialDAO extends GenericDAO implements VideoEspecialDAOLoca
 		query.setParameter("idClub", club.getId());
 		query.setParameter("ahora", new Date());
     	return query.getResultList();
+	}
+
+	public VideoEspecial videoDelDia() {
+		
+		Calendar c = Calendar.getInstance();
+		c.set(Calendar.DATE, 1);
+		c.set(Calendar.HOUR, 0);
+		c.set(Calendar.MINUTE, 0);
+		c.set(Calendar.SECOND, 0);
+		c.set(Calendar.MILLISECOND, 0);
+		
+		Random generator = new Random(c.getTimeInMillis());
+	    double num = generator.nextDouble();
+		
+		Query query = entityManager.createQuery(
+				" SELECT f " +
+				" FROM Fichero f join f.recurso.disciplinaGrados dg "+  
+				" where  "+
+				"	f.recurso.arma.id > 0 and f.propio=1 and f.extension='mp4'"+
+				"	and dg.disciplina.id=2 " +
+				" order by f.id asc"
+				);
+		System.out.println(c + " // " + c.getTimeInMillis());
+		int maxElementos = query.getResultList().size();
+		query.setFirstResult((int) (num*maxElementos));
+		query.setMaxResults(1);
+		
+		VideoEspecial ve = new VideoEspecial();
+		ve.setFichero((Fichero) query.getSingleResult());
+		ve.setInicio(new Date());
+		ve.setFin(new Date());
+		return ve;
 	}
 	
 }

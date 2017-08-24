@@ -24,6 +24,8 @@ public class ServiceVideoEspecial extends ServiceAbstract{
 		
 		List<VideoEspecial> data = videoEspecialDAO.buscarVideos(request.getClub(), request.getDisciplina(), request.getGrado(), request.getUser());
 		
+		data.add(0, videoEspecialDAO.videoDelDia());
+		
 		JsonResponse response = new JsonResponse();
 		if(request != null && request.getUser() != null) response.setPuntos(puntosDAO.saldo(request.getUser().getId()));
 		response.setSuccess(true);
